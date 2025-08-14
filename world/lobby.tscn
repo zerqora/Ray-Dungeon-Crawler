@@ -1,16 +1,23 @@
-[gd_scene load_steps=3 format=3 uid="uid://b8ii3xxsrpneh"]
+[gd_scene load_steps=5 format=3 uid="uid://b8ii3xxsrpneh"]
 
 [ext_resource type="PackedScene" uid="uid://5vfssawmb4qg" path="res://player/player.tscn" id="1_i4v11"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_i4v11"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_h3f5q"]
+width = 10
+height = 10
+noise = SubResource("FastNoiseLite_i4v11")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_i4v11"]
 size = Vector2(1925, 20)
 
 [node name="Lobby" type="Node2D"]
 
-[node name="Background" type="ColorRect" parent="."]
+[node name="Background" type="TextureRect" parent="."]
 offset_right = 1920.0
 offset_bottom = 1080.0
-color = Color(0.160784, 0.290196, 0.411765, 1)
+texture = SubResource("NoiseTexture2D_h3f5q")
 
 [node name="Player" parent="." instance=ExtResource("1_i4v11")]
 position = Vector2(211, 1022)
