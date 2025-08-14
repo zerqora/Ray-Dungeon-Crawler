@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://5vfssawmb4qg"]
+
+[ext_resource type="Script" uid="uid://gvf36gfbn7ns" path="res://scripts/movement.gd" id="1_oul6g"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_sh265"]
+radius = 8.0
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_4flbx"]
+
+[node name="Player" type="CharacterBody2D"]
+platform_floor_layers = 4294967041
+script = ExtResource("1_oul6g")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -15)
+shape = SubResource("CapsuleShape2D_sh265")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(3.57628e-07, -14.5)
+scale = Vector2(14, 29)
+texture = SubResource("CanvasTexture_4flbx")
+
+[node name="Camera" type="Camera2D" parent="."]
