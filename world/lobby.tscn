@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://b8ii3xxsrpneh"]
+[gd_scene load_steps=6 format=3 uid="uid://b8ii3xxsrpneh"]
 
 [ext_resource type="PackedScene" uid="uid://5vfssawmb4qg" path="res://player/player.tscn" id="1_i4v11"]
+[ext_resource type="PackedScene" uid="uid://brbbu4jdlfd8p" path="res://assets/door/door.tscn" id="2_h3f5q"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_i4v11"]
 
@@ -10,26 +11,31 @@ height = 10
 noise = SubResource("FastNoiseLite_i4v11")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_i4v11"]
-size = Vector2(1925, 20)
+size = Vector2(280.5, 20)
 
 [node name="Lobby" type="Node2D"]
 
-[node name="Background" type="TextureRect" parent="."]
-offset_right = 1920.0
-offset_bottom = 1080.0
+[node name="Background2" type="Node2D" parent="."]
+
+[node name="Temp" type="TextureRect" parent="Background2"]
+offset_right = 256.0
+offset_bottom = 81.0
 texture = SubResource("NoiseTexture2D_h3f5q")
 
 [node name="Player" parent="." instance=ExtResource("1_i4v11")]
-position = Vector2(211, 1022)
+position = Vector2(59, 83)
 
 [node name="Floor" type="StaticBody2D" parent="."]
 
 [node name="Temp" type="ColorRect" parent="Floor"]
-offset_left = 9.0
-offset_top = 1036.0
-offset_right = 1916.0
-offset_bottom = 1076.0
+offset_top = 81.0
+offset_right = 257.0
+offset_bottom = 140.0
+color = Color(0, 0, 0, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
-position = Vector2(965, 1044)
+position = Vector2(139, 91)
 shape = SubResource("RectangleShape2D_i4v11")
+
+[node name="Door" parent="." instance=ExtResource("2_h3f5q")]
+position = Vector2(133, 49)

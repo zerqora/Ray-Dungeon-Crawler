@@ -1,14 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://5vfssawmb4qg"]
+[gd_scene load_steps=9 format=3 uid="uid://5vfssawmb4qg"]
 
 [ext_resource type="Script" uid="uid://gvf36gfbn7ns" path="res://scripts/movement.gd" id="1_oul6g"]
 [ext_resource type="Texture2D" uid="uid://b047v06egti7k" path="res://sprites/ray's idle/IMG_1044.png" id="2_qjkh3"]
 [ext_resource type="Texture2D" uid="uid://n6fb28rjsvlj" path="res://sprites/ray's idle/IMG_1045.png" id="3_g6k8r"]
 [ext_resource type="Texture2D" uid="uid://bros1vumn4f2g" path="res://sprites/ray's idle/IMG_1046.png" id="4_boad6"]
 [ext_resource type="Texture2D" uid="uid://blkmevil7k6yt" path="res://sprites/ray's idle/IMG_1047.png" id="5_rgyib"]
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_sh265"]
-radius = 6.0
-height = 26.0
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_hg6s5"]
 animations = [{
@@ -30,14 +26,18 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_sh265"]
+radius = 6.0
+height = 26.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_qjkh3"]
+radius = 4.0
+
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 2
+collision_mask = 9
 platform_floor_layers = 4294967041
 script = ExtResource("1_oul6g")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -15)
-shape = SubResource("CapsuleShape2D_sh265")
 
 [node name="Sprite2D" type="AnimatedSprite2D" parent="."]
 texture_repeat = 2
@@ -48,3 +48,15 @@ animation = &"idle"
 [node name="Camera" type="Camera2D" parent="."]
 offset = Vector2(0, -20)
 zoom = Vector2(10, 10)
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 9
+
+[node name="InteractCollider" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, -15)
+shape = SubResource("CapsuleShape2D_sh265")
+
+[node name="FeetCollider" type="CollisionShape2D" parent="."]
+position = Vector2(0, -6)
+shape = SubResource("CircleShape2D_qjkh3")
