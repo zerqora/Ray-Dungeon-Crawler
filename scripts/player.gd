@@ -24,8 +24,9 @@ func _physics_process(delta: float) -> void:
 # TODO: Implement State Machine
 func _handle_input() -> void:
 	var stopped_moving: bool = Input.is_action_just_released("LEFT") or Input.is_action_just_released("RIGHT")
+	# Feels more predictable to the player if pressing left AND right cancelled out movement.
 	var cancelled_out_direction : bool = Input.is_action_pressed("LEFT") and Input.is_action_pressed("RIGHT")
-	
+
 	if stopped_moving or cancelled_out_direction:
 		direction = DIRECTION.NONE
 	elif Input.is_action_pressed("LEFT"):
@@ -34,6 +35,6 @@ func _handle_input() -> void:
 	elif Input.is_action_pressed("RIGHT"):
 		direction = DIRECTION.RIGHT
 		animation.flip_h = true
-	
-		
+	if Input.is_action_just_pressed("INTERACT"):
+		EventBus.on_interaction_button_pressed.emit()
 	

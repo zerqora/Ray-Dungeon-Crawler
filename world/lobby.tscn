@@ -1,41 +1,78 @@
 [gd_scene load_steps=6 format=3 uid="uid://b8ii3xxsrpneh"]
 
-[ext_resource type="PackedScene" uid="uid://5vfssawmb4qg" path="res://player/player.tscn" id="1_i4v11"]
 [ext_resource type="PackedScene" uid="uid://brbbu4jdlfd8p" path="res://assets/door/door.tscn" id="2_h3f5q"]
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_i4v11"]
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_h3f5q"]
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_h3f5q"]
 width = 10
 height = 10
-noise = SubResource("FastNoiseLite_i4v11")
+noise = SubResource("FastNoiseLite_h3f5q")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_i4v11"]
 size = Vector2(280.5, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_h3f5q"]
+size = Vector2(20, 161.5)
 
 [node name="Lobby" type="Node2D"]
 
 [node name="Background2" type="Node2D" parent="."]
 
 [node name="Temp" type="TextureRect" parent="Background2"]
+offset_top = -14.0
 offset_right = 256.0
 offset_bottom = 81.0
 texture = SubResource("NoiseTexture2D_h3f5q")
-
-[node name="Player" parent="." instance=ExtResource("1_i4v11")]
-position = Vector2(59, 83)
+metadata/_edit_use_anchors_ = true
 
 [node name="Floor" type="StaticBody2D" parent="."]
 
 [node name="Temp" type="ColorRect" parent="Floor"]
-offset_top = 81.0
+offset_top = 103.0
 offset_right = 257.0
 offset_bottom = 140.0
 color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
 position = Vector2(139, 91)
 shape = SubResource("RectangleShape2D_i4v11")
 
 [node name="Door" parent="." instance=ExtResource("2_h3f5q")]
-position = Vector2(133, 49)
+position = Vector2(76, 49)
+
+[node name="Door2" parent="." instance=ExtResource("2_h3f5q")]
+position = Vector2(156, 49)
+
+[node name="WallBorder" type="Node2D" parent="."]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="WallBorder"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WallBorder/StaticBody2D"]
+position = Vector2(-10, 62.5)
+shape = SubResource("RectangleShape2D_h3f5q")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="WallBorder/StaticBody2D"]
+position = Vector2(267, 65.75)
+shape = SubResource("RectangleShape2D_h3f5q")
+
+[node name="ColorRect" type="ColorRect" parent="WallBorder/StaticBody2D"]
+offset_left = -76.0
+offset_top = -16.0
+offset_right = -1.0
+offset_bottom = 140.0
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="WallBorder/StaticBody2D"]
+offset_left = 257.0
+offset_top = -16.0
+offset_right = 332.0
+offset_bottom = 140.0
+color = Color(0, 0, 0, 1)
+
+[node name="Ceiling" type="ColorRect" parent="WallBorder/StaticBody2D"]
+offset_top = -51.0
+offset_right = 257.0
+offset_bottom = -14.0
+color = Color(0, 0, 0, 1)

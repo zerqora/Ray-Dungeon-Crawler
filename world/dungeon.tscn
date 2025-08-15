@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://dyxlht4af6yhq"]
+
+[ext_resource type="PackedScene" uid="uid://b8ii3xxsrpneh" path="res://world/lobby.tscn" id="1_2hl08"]
+[ext_resource type="Script" uid="uid://djum8ofdx1mge" path="res://scripts/scene_manager.gd" id="1_t7djt"]
+[ext_resource type="PackedScene" uid="uid://5vfssawmb4qg" path="res://player/player.tscn" id="3_06gaa"]
+
+[node name="Dungeon" type="Node2D"]
+script = ExtResource("1_t7djt")
+
+[node name="CurrentScene" type="Node2D" parent="."]
+
+[node name="Lobby" parent="CurrentScene" instance=ExtResource("1_2hl08")]
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="Player" parent="." instance=ExtResource("3_06gaa")]

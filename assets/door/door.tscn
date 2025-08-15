@@ -6,8 +6,9 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7y4yi"]
 size = Vector2(44, 32)
 
-[node name="Door" type="Node2D"]
+[node name="Door" type="Node2D" node_paths=PackedStringArray("interact_area")]
 script = ExtResource("1_2nls4")
+interact_area = NodePath("Area2D")
 
 [node name="Area2D" type="Area2D" parent="."]
 collision_layer = 8
