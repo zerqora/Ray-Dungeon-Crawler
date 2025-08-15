@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://b2jil1bmn7sdn"]
+
+[ext_resource type="Script" uid="uid://dy54ka5fvtplh" path="res://scripts/base_attack.gd" id="1_bh85u"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_vtm4x"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_adofn"]
+size = Vector2(5, 5)
+
+[node name="FlameFist" type="Node2D"]
+script = ExtResource("1_bh85u")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(4.5, 4.5)
+texture = SubResource("CanvasTexture_vtm4x")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_adofn")
