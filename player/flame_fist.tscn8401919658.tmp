@@ -3,9 +3,6 @@
 [ext_resource type="PackedScene" uid="uid://b2jil1bmn7sdn" path="res://player/base_attack.tscn" id="1_bh85u"]
 
 [sub_resource type="GDScript" id="GDScript_bh85u"]
-script/source = "class_name FlameFist extends Attack
-"
 
 [node name="FlameFist" instance=ExtResource("1_bh85u")]
 script = SubResource("GDScript_bh85u")
-stats = null

@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="AttackStats" load_steps=2 format=3 uid="uid://bec0ageufpn87"]
+
+[ext_resource type="Script" uid="uid://d2yfuoruba1je" path="res://scripts/attack_stats.gd" id="1_pgxwt"]
+
+[resource]
+script = ExtResource("1_pgxwt")
+damage = 20
+true_damage = false
+metadata/_custom_type_script = "uid://d2yfuoruba1je"

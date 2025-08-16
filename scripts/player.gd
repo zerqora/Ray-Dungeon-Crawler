@@ -1,25 +1,24 @@
 class_name Player extends CharacterBody2D
-
 # Eventually create a state machine to control what happens to inputs. Getting the basics down and changing it later.
 enum DIRECTION {
 	NONE = 0,
 	RIGHT = 1,
 	LEFT = -1
 }
-
-var attack_slots = {
-	"Flame_Fist" = "res://player/flame_fist.tscn"
+@onready var attack_slots = {
+	"FlameFist" = $FlameFist
 }
+@onready var animation = $Sprite2D
+
 var speed: int = 5000
 var direction: int = DIRECTION.NONE
 var gravity: int = 5000
 
-
-@export var attack_cooldown_timer : Timer
-@onready var animation = $Sprite2D
-
 func _ready() -> void:
 	animation.play("idle")
+	var values : Array = attack_slots.values()
+	for value : Attack in values:
+		value.hide()
 
 func _physics_process(delta: float) -> void:
 	_handle_input()
@@ -45,16 +44,11 @@ func _handle_input() -> void:
 	if Input.is_action_just_pressed("INTERACT"):
 		EventBus.on_interaction_button_pressed.emit()
 	if Input.is_action_just_pressed("ATTACK"):
-		_attempt_to_spawn_attack("Flame_Fist")
+		_attempt_to_spawn_attack("FlameFist")
 	
 func _attempt_to_spawn_attack(attack: String) -> void:
-	if not attack_cooldown_timer.is_stopped(): return
-	attack_cooldown_timer.start()
-	var scene_path : String = attack_slots[attack]
-	var scene = load(scene_path).instantiate()
-	add_child(scene)
-	
-	
-	
-		
+	var attack_selected : Attack = attack_slots[attack]
+	if attack_selected.visible: return
+	attack_selected.global_position = Vector2(global_position.x + (direction * 10), global_position.y - 20)
+	attack_selected.show()
 	
