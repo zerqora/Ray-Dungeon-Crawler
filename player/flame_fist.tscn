@@ -1,11 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://dah7qoqag4i07"]
+[gd_scene load_steps=3 format=3 uid="uid://c11qnthmq3di0"]
 
 [ext_resource type="PackedScene" uid="uid://b2jil1bmn7sdn" path="res://player/base_attack.tscn" id="1_bh85u"]
-
-[sub_resource type="GDScript" id="GDScript_bh85u"]
-script/source = "class_name FlameFist extends Attack
-"
+[ext_resource type="Script" uid="uid://csplxw0b0qffp" path="res://player/flame_fist.gd" id="2_adofn"]
 
 [node name="FlameFist" instance=ExtResource("1_bh85u")]
-script = SubResource("GDScript_bh85u")
+script = ExtResource("2_adofn")
 stats = null
+
+[node name="Lifetime" type="Timer" parent="." index="2"]
+one_shot = true
+
+[connection signal="timeout" from="Lifetime" to="." method="_on_lifetime_timeout"]
