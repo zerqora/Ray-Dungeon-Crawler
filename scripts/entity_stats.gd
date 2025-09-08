@@ -1,5 +1,7 @@
 class_name EntityStats extends Resource
 
-@export var health : int
+@export var sight_magnitude : float
+@export var gravity : int
 @export var speed : int
-@export var knockback_resistance : float
+@export var damage : float
+@export var hp : int

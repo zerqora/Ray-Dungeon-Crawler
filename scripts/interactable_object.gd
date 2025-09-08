@@ -6,4 +6,5 @@ func _ready() -> void:
 	EventBus.on_interaction_button_pressed.connect(_handle_interaction)
 	
 func _handle_interaction() -> void:
-	if not interact_area.in_area: return
+	pass
+	

@@ -1,4 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://dlwcvb3yegwci"]
+[gd_scene load_steps=6 format=3 uid="uid://dlwcvb3yegwci"]
+
+[ext_resource type="Script" uid="uid://ixnx8rxpd62t" path="res://scripts/level.gd" id="1_lis17"]
+[ext_resource type="Script" uid="uid://7ieog0klw33" path="res://world/enemy_spawn_points.gd" id="2_6f1wx"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_i4v11"]
 
@@ -10,7 +13,10 @@ noise = SubResource("FastNoiseLite_i4v11")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lis17"]
 size = Vector2(280.5, 20)
 
-[node name="Level1" type="Node2D"]
+[node name="Level1" type="Node2D" node_paths=PackedStringArray("spawn_point", "enemy_spawn_points")]
+script = ExtResource("1_lis17")
+spawn_point = NodePath("Spawnpoint")
+enemy_spawn_points = NodePath("EnemySpawnPoints")
 
 [node name="Background2" type="Node2D" parent="."]
 
@@ -37,3 +43,12 @@ shape = SubResource("RectangleShape2D_lis17")
 [node name="Spawnpoint" type="Marker2D" parent="."]
 position = Vector2(132, 58)
 gizmo_extents = 7.0
+
+[node name="EnemySpawnPoints" type="Node2D" parent="."]
+script = ExtResource("2_6f1wx")
+
+[node name="Marker2D" type="Marker2D" parent="EnemySpawnPoints"]
+position = Vector2(192, 67)
+
+[node name="Marker2D2" type="Marker2D" parent="EnemySpawnPoints"]
+position = Vector2(39, 62)

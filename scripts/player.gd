@@ -51,8 +51,6 @@ func _attempt_to_spawn_attack(attack: String) -> void:
 	if attack_selected.visible: 
 		print("already visible. early return")
 		return
-	print("successfully spawned")
 	attack_selected.global_position = Vector2(global_position.x + (direction * 10), global_position.y - 20)
-	attack_selected.visible = true
 	attack_selected.spawn()
 	

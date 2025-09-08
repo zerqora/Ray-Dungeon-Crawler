@@ -5,7 +5,9 @@
 
 [node name="FlameFist" instance=ExtResource("1_bh85u")]
 script = ExtResource("2_adofn")
-stats = null
+
+[node name="Cooldown" parent="." index="1"]
+wait_time = 0.4
 
 [node name="Lifetime" type="Timer" parent="." index="2"]
 one_shot = true

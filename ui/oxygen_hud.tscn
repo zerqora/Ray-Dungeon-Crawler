@@ -1,0 +1,35 @@
+[gd_scene load_steps=2 format=3 uid="uid://erwnba8iqylc"]
+
+[ext_resource type="Script" uid="uid://c4li5qjru6quw" path="res://ui/oxygen_hud.gd" id="1_pihfm"]
+
+[node name="OxygenHud" type="Control"]
+layout_mode = 3
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -62.0
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("1_pihfm")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -77.0
+offset_right = 481.0
+grow_vertical = 0
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+
+[node name="ColorRect" type="ColorRect" parent="MarginContainer"]
+layout_mode = 2
+color = Color(0.230315, 0.230315, 0.230315, 1)
+
+[node name="TextureProgressBar" type="ProgressBar" parent="MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+value = 100.0
