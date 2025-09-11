@@ -26,7 +26,6 @@ func update(owner, delta: float) -> void:
 func look_for_player() -> void:
 	player_seen = sight_line.update()
 	if player_seen:
-		print("Started to chase")
 		this_data["player"] = sight_line.get_collider()
 		this_data["sight"] = sight_line
 		exit()

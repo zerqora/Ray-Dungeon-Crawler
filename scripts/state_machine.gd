@@ -15,7 +15,11 @@ func _ready() -> void:
 	# State machines usually access data from the root node of the scene they're part of: the owner.
 	# We wait for the owner to be ready to guarantee all the data and nodes the states may need are available.
 	await owner.ready
-	state.enter("", {"animation" : animation})
+	var data : Dictionary = {
+		"stats" : owner.entity_stats,
+		"animation" : animation
+	}
+	state.enter("", data)
 	#target = get_tree().get_nodes_in_group("Player")[0]
 	#print("Player is being tracked with it's node", target)
 

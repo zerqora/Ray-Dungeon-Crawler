@@ -45,12 +45,12 @@ func _handle_input() -> void:
 		EventBus.on_interaction_button_pressed.emit()
 	if Input.is_action_just_pressed("ATTACK"):
 		_attempt_to_spawn_attack("FlameFist")
+	if Input.is_action_just_pressed("DASH"):
+		print("DASH")
 	
 func _attempt_to_spawn_attack(attack: String) -> void:
 	var attack_selected : Attack = attack_slots[attack]
-	if attack_selected.visible: 
-		print("already visible. early return")
-		return
+	if attack_selected.visible: return
 	attack_selected.global_position = Vector2(global_position.x + (direction * 10), global_position.y - 20)
 	attack_selected.spawn()
 	

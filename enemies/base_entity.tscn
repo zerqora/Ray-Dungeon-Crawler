@@ -108,8 +108,9 @@ next_node = NodePath("../Chase")
 script = ExtResource("11_bsopm")
 next_node = NodePath("../Patrol")
 
-[node name="Patrol" type="Node" parent="StateMachine"]
+[node name="Patrol" type="Node" parent="StateMachine" node_paths=PackedStringArray("next_node")]
 script = ExtResource("17_jgep4")
+next_node = NodePath("../Idle")
 
 [node name="SightLine" type="RayCast2D" parent="."]
 target_position = Vector2(-50, 0)
