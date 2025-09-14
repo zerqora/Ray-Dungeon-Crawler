@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://djlt3tfmrruju"]
+[gd_scene load_steps=23 format=3 uid="uid://djlt3tfmrruju"]
 
 [ext_resource type="Script" uid="uid://b4f5m4vk8ml73" path="res://scripts/entity.gd" id="1_7rdkp"]
 [ext_resource type="Texture2D" uid="uid://co34gs10qw2o4" path="res://enemies/miner/running_anim/Untitled_Artwork-1 2.png" id="2_vlknj"]
@@ -18,6 +18,7 @@
 [ext_resource type="Texture2D" uid="uid://gj2fmttd0srx" path="res://enemies/miner/idle_anim/minerIdle-4.png" id="12_jdps6"]
 [ext_resource type="Texture2D" uid="uid://biw0jjf87qxgb" path="res://enemies/miner/idle_anim/minerIdle-5.png" id="13_a7lgs"]
 [ext_resource type="Script" uid="uid://dqjq4qpkqxnqe" path="res://enemies/patrol.gd" id="17_jgep4"]
+[ext_resource type="Script" uid="uid://cedjojeegjduu" path="res://enemies/attack.gd" id="18_lefkw"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_qv4iq"]
 animations = [{
@@ -82,7 +83,7 @@ animation_player = NodePath("AnimationPlayer")
 
 [node name="AnimationPlayer" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_qv4iq")
-animation = &"idle"
+animation = &"chase"
 
 [node name="Hitbox" type="Area2D" parent="."]
 
@@ -99,18 +100,21 @@ script = ExtResource("9_m8s0t")
 initial_state = NodePath("Idle")
 animation = NodePath("../AnimationPlayer")
 
-[node name="Idle" type="Node" parent="StateMachine" node_paths=PackedStringArray("sight_line", "next_node")]
+[node name="Idle" type="Node" parent="StateMachine" node_paths=PackedStringArray("sight_line", "neighboring_nodes")]
 script = ExtResource("10_bsopm")
 sight_line = NodePath("../../SightLine")
-next_node = NodePath("../Chase")
+neighboring_nodes = [NodePath("../Chase"), NodePath("../Patrol")]
 
-[node name="Chase" type="Node" parent="StateMachine" node_paths=PackedStringArray("next_node")]
+[node name="Chase" type="Node" parent="StateMachine" node_paths=PackedStringArray("neighboring_nodes")]
 script = ExtResource("11_bsopm")
-next_node = NodePath("../Patrol")
+neighboring_nodes = [NodePath("../Patrol")]
 
-[node name="Patrol" type="Node" parent="StateMachine" node_paths=PackedStringArray("next_node")]
+[node name="Patrol" type="Node" parent="StateMachine" node_paths=PackedStringArray("neighboring_nodes")]
 script = ExtResource("17_jgep4")
-next_node = NodePath("../Idle")
+neighboring_nodes = [NodePath("../Idle")]
+
+[node name="MinerBasicAttack" type="Node" parent="StateMachine"]
+script = ExtResource("18_lefkw")
 
 [node name="SightLine" type="RayCast2D" parent="."]
 target_position = Vector2(-50, 0)

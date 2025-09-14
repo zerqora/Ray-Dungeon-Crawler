@@ -1,7 +1,7 @@
 class_name State extends Node
 
-## The next node of the behavior tree.
-@export var next_node : State
+## The neigboring nodes of this node.
+@export var neighboring_nodes : Array[State]
 ## Data within this state upon the enter function
 var this_data : Dictionary = {}
 
@@ -21,6 +21,6 @@ func _physics_update(_owner, _delta: float) -> void:
 	pass
 
 ## Sends the finished signal to indicate the end of a state
-func exit() -> void:
+func exit(next_state: State) -> void:
 	# State ends
-	finished.emit(next_node, this_data)
+	finished.emit(next_state, this_data)

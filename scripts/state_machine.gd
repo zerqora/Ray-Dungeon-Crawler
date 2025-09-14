@@ -17,7 +17,8 @@ func _ready() -> void:
 	await owner.ready
 	var data : Dictionary = {
 		"stats" : owner.entity_stats,
-		"animation" : animation
+		"animation" : animation,
+		"spawn_point" : owner.global_position
 	}
 	state.enter("", data)
 	#target = get_tree().get_nodes_in_group("Player")[0]

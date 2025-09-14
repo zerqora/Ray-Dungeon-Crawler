@@ -13,15 +13,25 @@ enum DIRECTION {
 var speed: int = 5000
 var direction: int = DIRECTION.NONE
 var gravity: int = 5000
+var dashing : bool = false
 
 func _ready() -> void:
 	animation.play("idle")
 	var values : Array = attack_slots.values()
 	for value : Attack in values:
 		value.hide()
-
+var dash_duration : int = 1
+var timer : float = 0
 func _physics_process(delta: float) -> void:
+	timer += delta
 	_handle_input()
+	# Dash is over
+	if dashing && timer > dash_duration:
+		print("dash over")
+		timer = 0
+		dashing = false
+		speed /= 2
+		
 	velocity.x = direction * speed * delta
 	if not is_on_floor():
 		velocity.y = gravity * delta
@@ -46,7 +56,8 @@ func _handle_input() -> void:
 	if Input.is_action_just_pressed("ATTACK"):
 		_attempt_to_spawn_attack("FlameFist")
 	if Input.is_action_just_pressed("DASH"):
-		print("DASH")
+		print("dashing")
+		dash()
 	
 func _attempt_to_spawn_attack(attack: String) -> void:
 	var attack_selected : Attack = attack_slots[attack]
@@ -54,3 +65,7 @@ func _attempt_to_spawn_attack(attack: String) -> void:
 	attack_selected.global_position = Vector2(global_position.x + (direction * 10), global_position.y - 20)
 	attack_selected.spawn()
 	
+func dash() -> void:
+	if dashing: return
+	speed *= 2
+	dashing = true

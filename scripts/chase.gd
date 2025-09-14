@@ -33,4 +33,4 @@ func update(owner, delta: float) -> void:
 func look_for_player(owner) -> void:
 	if abs(this_data["player"].global_position.x - owner.global_position.x) < 20:
 		print("this should be attack state")
-		exit()
+		# exit()
