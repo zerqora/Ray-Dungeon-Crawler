@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://be835wm0smgoq" path="res://assets/tilemaps/background_tilemap.png" id="1_ljvc3"]
 [ext_resource type="PackedScene" uid="uid://brbbu4jdlfd8p" path="res://assets/door/door.tscn" id="2_h3f5q"]
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ljvc3"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_h3f5q"]
 texture = ExtResource("1_ljvc3")
 1:3/0 = 0
 2:3/0 = 0
@@ -24,7 +24,7 @@ texture = ExtResource("1_ljvc3")
 0:0/0 = 0
 
 [sub_resource type="TileSet" id="TileSet_yktnk"]
-sources/0 = SubResource("TileSetAtlasSource_ljvc3")
+sources/0 = SubResource("TileSetAtlasSource_h3f5q")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_i4v11"]
 size = Vector2(280.5, 20)

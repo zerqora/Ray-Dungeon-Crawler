@@ -4,7 +4,7 @@ class_name IdleState extends State
 
 var player_seen : bool
 	
-func enter(previous_state_path : String, data: Dictionary = {}) -> void:
+func enter(data: Dictionary = {}) -> void:
 	this_data = data
 	this_data["animation"].play("idle")
 
@@ -28,11 +28,11 @@ func update(owner, delta: float) -> void:
 	look_for_player()
 
 func look_for_player() -> void:
-	player_seen = sight_line.update()
-	if player_seen:
-		this_data["player"] = sight_line.get_collider()
-		this_data["sight"] = sight_line
-		# exit()
+	if sight_line.is_colliding() && sight_line.get_collider().get_parent() is Player:
+		print("found player")
+		this_data["player"] = sight_line.get_collider().get_parent()
+		finished.emit(neighboring_nodes[0], this_data)
+		
 func turn(owner) -> void:
 		owner.animation_player.flip_h = false if owner.animation_player.flip_h else true
 		sight_line.target_position.x *= -1

@@ -9,7 +9,7 @@ var this_data : Dictionary = {}
 signal finished(next_state_path: String, data: Dictionary)
 
 ## Occurs when the state first enters the tick toop.
-func enter(previous_state_path : String, data : Dictionary = {}) -> void:
+func enter(data : Dictionary = {}) -> void:
 	pass
 
 ## Called by state machine to run on the main tick loop.
@@ -24,3 +24,5 @@ func _physics_update(_owner, _delta: float) -> void:
 func exit(next_state: State) -> void:
 	# State ends
 	finished.emit(next_state, this_data)
+
+	

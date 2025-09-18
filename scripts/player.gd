@@ -20,10 +20,10 @@ func _ready() -> void:
 	var values : Array = attack_slots.values()
 	for value : Attack in values:
 		value.hide()
-var dash_duration : int = 1
+var dash_duration : float = .5
 var timer : float = 0
 func _physics_process(delta: float) -> void:
-	timer += delta
+	
 	_handle_input()
 	# Dash is over
 	if dashing && timer > dash_duration:
@@ -31,7 +31,8 @@ func _physics_process(delta: float) -> void:
 		timer = 0
 		dashing = false
 		speed /= 2
-		
+	if dashing:
+		timer += delta
 	velocity.x = direction * speed * delta
 	if not is_on_floor():
 		velocity.y = gravity * delta

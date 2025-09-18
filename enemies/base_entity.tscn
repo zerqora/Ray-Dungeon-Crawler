@@ -95,10 +95,12 @@ shape = SubResource("CapsuleShape2D_7rdkp")
 position = Vector2(-0.5, 13.5)
 shape = SubResource("RectangleShape2D_vlknj")
 
-[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state", "animation")]
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state", "animation", "sight_raycast", "cooldowns")]
 script = ExtResource("9_m8s0t")
 initial_state = NodePath("Idle")
 animation = NodePath("../AnimationPlayer")
+sight_raycast = NodePath("../SightLine")
+cooldowns = [NodePath("../AttackCooldown")]
 
 [node name="Idle" type="Node" parent="StateMachine" node_paths=PackedStringArray("sight_line", "neighboring_nodes")]
 script = ExtResource("10_bsopm")
@@ -107,17 +109,22 @@ neighboring_nodes = [NodePath("../Chase"), NodePath("../Patrol")]
 
 [node name="Chase" type="Node" parent="StateMachine" node_paths=PackedStringArray("neighboring_nodes")]
 script = ExtResource("11_bsopm")
-neighboring_nodes = [NodePath("../Patrol")]
+neighboring_nodes = [NodePath("../Patrol"), NodePath("../MinerBasicAttack")]
 
 [node name="Patrol" type="Node" parent="StateMachine" node_paths=PackedStringArray("neighboring_nodes")]
 script = ExtResource("17_jgep4")
-neighboring_nodes = [NodePath("../Idle")]
+neighboring_nodes = [NodePath("../Idle"), NodePath("../Chase")]
 
-[node name="MinerBasicAttack" type="Node" parent="StateMachine"]
+[node name="MinerBasicAttack" type="Node" parent="StateMachine" node_paths=PackedStringArray("neighboring_nodes")]
 script = ExtResource("18_lefkw")
+neighboring_nodes = [NodePath("../Chase")]
 
 [node name="SightLine" type="RayCast2D" parent="."]
 target_position = Vector2(-50, 0)
 collision_mask = 2
 collide_with_areas = true
 script = ExtResource("12_bsopm")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="AttackCooldown" type="Timer" parent="."]
