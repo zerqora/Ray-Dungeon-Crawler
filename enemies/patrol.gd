@@ -41,4 +41,5 @@ func update(owner, delta : float) -> void:
 		turn()
 		print("I'm straying too far away from spawn. I'm going to head the opposite way.")
 	owner.velocity.x = direction * this_data["stats"].speed * delta
+	owner.move_and_slide()
 		

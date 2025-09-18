@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://djlt3tfmrruju"]
+[gd_scene load_steps=24 format=3 uid="uid://djlt3tfmrruju"]
 
 [ext_resource type="Script" uid="uid://b4f5m4vk8ml73" path="res://scripts/entity.gd" id="1_7rdkp"]
 [ext_resource type="Texture2D" uid="uid://co34gs10qw2o4" path="res://enemies/miner/running_anim/Untitled_Artwork-1 2.png" id="2_vlknj"]
@@ -18,7 +18,7 @@
 [ext_resource type="Texture2D" uid="uid://gj2fmttd0srx" path="res://enemies/miner/idle_anim/minerIdle-4.png" id="12_jdps6"]
 [ext_resource type="Texture2D" uid="uid://biw0jjf87qxgb" path="res://enemies/miner/idle_anim/minerIdle-5.png" id="13_a7lgs"]
 [ext_resource type="Script" uid="uid://dqjq4qpkqxnqe" path="res://enemies/patrol.gd" id="17_jgep4"]
-[ext_resource type="Script" uid="uid://cedjojeegjduu" path="res://enemies/attack.gd" id="18_lefkw"]
+[ext_resource type="Script" uid="uid://xqvg45lseln4" path="res://enemies/miner_basic_attack.gd" id="18_lefkw"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_qv4iq"]
 animations = [{
@@ -73,6 +73,9 @@ height = 24.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vlknj"]
 size = Vector2(13, 5)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lefkw"]
+size = Vector2(38, 26)
+
 [node name="BaseEntity" type="CharacterBody2D" node_paths=PackedStringArray("hitbox", "state_machine", "animation_player")]
 collision_layer = 4
 script = ExtResource("1_7rdkp")
@@ -95,12 +98,13 @@ shape = SubResource("CapsuleShape2D_7rdkp")
 position = Vector2(-0.5, 13.5)
 shape = SubResource("RectangleShape2D_vlknj")
 
-[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state", "animation", "sight_raycast", "cooldowns")]
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state", "animation", "sight_raycast", "cooldowns", "attacks")]
 script = ExtResource("9_m8s0t")
 initial_state = NodePath("Idle")
 animation = NodePath("../AnimationPlayer")
 sight_raycast = NodePath("../SightLine")
 cooldowns = [NodePath("../AttackCooldown")]
+attacks = [NodePath("../BasicAttack")]
 
 [node name="Idle" type="Node" parent="StateMachine" node_paths=PackedStringArray("sight_line", "neighboring_nodes")]
 script = ExtResource("10_bsopm")
@@ -115,8 +119,9 @@ neighboring_nodes = [NodePath("../Patrol"), NodePath("../MinerBasicAttack")]
 script = ExtResource("17_jgep4")
 neighboring_nodes = [NodePath("../Idle"), NodePath("../Chase")]
 
-[node name="MinerBasicAttack" type="Node" parent="StateMachine" node_paths=PackedStringArray("neighboring_nodes")]
+[node name="MinerBasicAttack" type="Node" parent="StateMachine" node_paths=PackedStringArray("hurtbox", "neighboring_nodes")]
 script = ExtResource("18_lefkw")
+hurtbox = NodePath("../../BasicAttack")
 neighboring_nodes = [NodePath("../Chase")]
 
 [node name="SightLine" type="RayCast2D" parent="."]
@@ -125,6 +130,14 @@ collision_mask = 2
 collide_with_areas = true
 script = ExtResource("12_bsopm")
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="BasicAttack" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BasicAttack"]
+position = Vector2(-13, 3)
+shape = SubResource("RectangleShape2D_lefkw")
 
 [node name="AttackCooldown" type="Timer" parent="."]
+wait_time = 1.2
+one_shot = true

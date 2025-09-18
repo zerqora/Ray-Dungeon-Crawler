@@ -15,7 +15,6 @@ func enter(data : Dictionary = {}) -> void:
 # if they aren't, patrol the area a little bit before going back to the original spot.
 # if the entity is close enough to the player, play an attack, and then retreat backwards.
 func update(owner, delta: float) -> void:
-	look_for_player(owner)
 	if this_data["player"].global_position.x - owner.global_position.x > 0:
 		# player is on the right
 		this_data["animation"].flip_h = true
@@ -25,7 +24,11 @@ func update(owner, delta: float) -> void:
 		this_data["animation"].flip_h = false
 		direction = -1
 	owner.velocity.x = speed * direction * delta
+	look_for_player(owner)
+	owner.move_and_slide()
 	
 func look_for_player(owner) -> void:
 	if abs(this_data["player"].global_position.x - owner.global_position.x) < 20:
+		# Stop moving
+		owner.velocity.x = 0
 		exit(neighboring_nodes[1])
