@@ -104,7 +104,7 @@ height = 24.0
 size = Vector2(13, 5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lefkw"]
-size = Vector2(38, 26)
+size = Vector2(22, 26)
 
 [node name="BaseEntity" type="CharacterBody2D" node_paths=PackedStringArray("hitbox", "state_machine", "animation_player")]
 collision_layer = 4
@@ -145,6 +145,7 @@ neighboring_nodes = [NodePath("../Chase"), NodePath("../Patrol")]
 
 [node name="Chase" type="Node" parent="StateMachine" node_paths=PackedStringArray("neighboring_nodes")]
 script = ExtResource("11_bsopm")
+max_distance = 50
 neighboring_nodes = [NodePath("../Patrol"), NodePath("../MinerBasicAttack"), NodePath("../Retreat")]
 
 [node name="Patrol" type="Node" parent="StateMachine" node_paths=PackedStringArray("neighboring_nodes")]
@@ -172,7 +173,6 @@ collision_layer = 0
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BasicAttack"]
-position = Vector2(-13, 3)
 shape = SubResource("RectangleShape2D_lefkw")
 
 [node name="AttackCooldown" type="Timer" parent="."]

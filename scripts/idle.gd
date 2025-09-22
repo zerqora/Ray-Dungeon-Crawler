@@ -18,7 +18,7 @@ func update(owner, delta: float) -> void:
 	if timer > turn_when_seconds:
 		turn_when_seconds = randf_range(1, 5)
 		timer = 0
-		# if over 50%, exit to patrol node
+		# 50% to exit to patrol state
 		if chance_to_patrol > .5:
 			exit(neighboring_nodes[ceil(chance_to_patrol)])
 		else: 

@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://dyxlht4af6yhq"]
+[gd_scene load_steps=6 format=3 uid="uid://dyxlht4af6yhq"]
 
 [ext_resource type="PackedScene" uid="uid://b8ii3xxsrpneh" path="res://world/lobby.tscn" id="1_2hl08"]
 [ext_resource type="Script" uid="uid://djum8ofdx1mge" path="res://scripts/scene_manager.gd" id="1_t7djt"]
 [ext_resource type="PackedScene" uid="uid://erwnba8iqylc" path="res://ui/oxygen_hud.tscn" id="2_avs0c"]
+[ext_resource type="PackedScene" uid="uid://cu2nytgp6s0p" path="res://ui/health_hud.tscn" id="3_avs0c"]
 [ext_resource type="Script" uid="uid://b3s415a1qd1g2" path="res://scripts/monster_spawner.gd" id="4_k6q0d"]
 
 [node name="Dungeon" type="Node2D"]
@@ -11,6 +12,8 @@ script = ExtResource("1_t7djt")
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="OxygenHud" parent="CanvasLayer" instance=ExtResource("2_avs0c")]
+
+[node name="HealthHud" parent="CanvasLayer" instance=ExtResource("3_avs0c")]
 
 [node name="MonsterSpawner" type="Node" parent="."]
 script = ExtResource("4_k6q0d")
