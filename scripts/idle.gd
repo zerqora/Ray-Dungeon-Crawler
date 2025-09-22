@@ -7,7 +7,7 @@ var player_seen : bool
 func enter(data: Dictionary = {}) -> void:
 	this_data = data
 	this_data["animation"].play("idle")
-
+	print("idle state")
 ## Random float that changes everytime the entity successfully turns
 var turn_when_seconds : float = randf_range(1, 5)
 var chance_to_patrol : float = randf_range(0,1)

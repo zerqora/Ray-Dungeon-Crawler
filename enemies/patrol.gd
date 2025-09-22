@@ -42,4 +42,11 @@ func update(owner, delta : float) -> void:
 		print("I'm straying too far away from spawn. I'm going to head the opposite way.")
 	owner.velocity.x = direction * this_data["stats"].speed * delta
 	owner.move_and_slide()
+	look_for_player()
+	
+func look_for_player() -> void:
+	if this_data["sight"].is_colliding() && this_data["sight"].get_collider().get_parent() is Player:
+		print("found player")
+		this_data["player"] = this_data["sight"].get_collider().get_parent()
+		finished.emit(neighboring_nodes[1], this_data)
 		

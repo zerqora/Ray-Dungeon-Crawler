@@ -8,6 +8,9 @@ class_name StateMachine extends Node
 @export var cooldowns : Array[Timer]
 @export var attacks : Array[Area2D]
 
+# TODO: Refactor the look_for_player() function to be part of the state super class because it's so versatile
+
+var state_text : Label
 func _ready() -> void:
 	# Give every state a reference to the state machine.
 	for state_node: State in find_children("*", "State"):
@@ -26,6 +29,7 @@ func _ready() -> void:
 			"basic_attack" : cooldowns[0]
 		}
 	}
+	state_text = owner.get_node("StateDebugText")
 	state.enter(data)
 	#target = get_tree().get_nodes_in_group("Player")[0]
 	#print("Player is being tracked with it's node", target)
@@ -35,9 +39,11 @@ func _transition_to_next_state(next_node : Node, data: Dictionary = {}) -> void:
 	# state.exit()
 	state = next_node
 	state.enter(data)
+	state_text.text = state.name
 
 func update(delta: float) -> void:
 	state.update(owner, delta)
 	sight_raycast.target_position.x = abs(sight_raycast.target_position.x) * (-1 if animation.flip_h == false else 1)
+	
 	if not owner.is_on_floor() : owner.velocity.y = 5000 * delta
 	

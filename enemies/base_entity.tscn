@@ -1,13 +1,19 @@
-[gd_scene load_steps=24 format=3 uid="uid://djlt3tfmrruju"]
+[gd_scene load_steps=31 format=3 uid="uid://djlt3tfmrruju"]
 
 [ext_resource type="Script" uid="uid://b4f5m4vk8ml73" path="res://scripts/entity.gd" id="1_7rdkp"]
 [ext_resource type="Texture2D" uid="uid://co34gs10qw2o4" path="res://enemies/miner/running_anim/Untitled_Artwork-1 2.png" id="2_vlknj"]
 [ext_resource type="Resource" uid="uid://cew7vh7w6bahq" path="res://enemies/miner/miner_stats.tres" id="2_xv3qx"]
+[ext_resource type="Texture2D" uid="uid://cectde1xi8ld6" path="res://enemies/miner/basic_attack_anim/Untitled_Artwork-1.png" id="3_fpqfi"]
 [ext_resource type="Texture2D" uid="uid://cxt1aiyu1t302" path="res://enemies/miner/running_anim/Untitled_Artwork-2 2.png" id="3_xv3qx"]
+[ext_resource type="Texture2D" uid="uid://bqr4rtccn84aq" path="res://enemies/miner/basic_attack_anim/Untitled_Artwork-2.png" id="4_1red3"]
 [ext_resource type="Texture2D" uid="uid://dtg36y3grlsbl" path="res://enemies/miner/running_anim/Untitled_Artwork-3 2.png" id="4_m8s0t"]
 [ext_resource type="Texture2D" uid="uid://chb3jnscsyxe8" path="res://enemies/miner/running_anim/Untitled_Artwork-4 2.png" id="5_e6kmk"]
+[ext_resource type="Texture2D" uid="uid://dxqdc8mutal7b" path="res://enemies/miner/basic_attack_anim/Untitled_Artwork-3.png" id="5_pj3ns"]
+[ext_resource type="Texture2D" uid="uid://ddujdiskfb1xd" path="res://enemies/miner/basic_attack_anim/Untitled_Artwork-4.png" id="6_3mbrl"]
 [ext_resource type="Texture2D" uid="uid://c1ipofgq6ub4r" path="res://enemies/miner/running_anim/Untitled_Artwork-5.png" id="6_bsopm"]
 [ext_resource type="Texture2D" uid="uid://dxf3rx50uspje" path="res://enemies/miner/running_anim/Untitled_Artwork-6.png" id="7_0rcsr"]
+[ext_resource type="Texture2D" uid="uid://ckqrp72bgt1bx" path="res://enemies/miner/basic_attack_anim/Untitled_Artwork-5 (1).png" id="7_m7ws8"]
+[ext_resource type="Texture2D" uid="uid://ji7njxv343g2" path="res://enemies/miner/basic_attack_anim/Untitled_Artwork-6 (1).png" id="8_nv806"]
 [ext_resource type="Texture2D" uid="uid://cxm6cetmvrhx7" path="res://enemies/miner/idle_anim/minerIdle-1.png" id="9_af2ss"]
 [ext_resource type="Script" uid="uid://dv7j5wkl0sq87" path="res://scripts/state_machine.gd" id="9_m8s0t"]
 [ext_resource type="Script" uid="uid://dnrrso8v3u1xw" path="res://scripts/idle.gd" id="10_bsopm"]
@@ -19,9 +25,33 @@
 [ext_resource type="Texture2D" uid="uid://biw0jjf87qxgb" path="res://enemies/miner/idle_anim/minerIdle-5.png" id="13_a7lgs"]
 [ext_resource type="Script" uid="uid://dqjq4qpkqxnqe" path="res://enemies/patrol.gd" id="17_jgep4"]
 [ext_resource type="Script" uid="uid://xqvg45lseln4" path="res://enemies/miner_basic_attack.gd" id="18_lefkw"]
+[ext_resource type="Script" uid="uid://d0yra7ec3rips" path="res://enemies/retreat_state.gd" id="19_jdps6"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_qv4iq"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_fpqfi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_1red3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_pj3ns")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_3mbrl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_m7ws8")
+}, {
+"duration": 1.5,
+"texture": ExtResource("8_nv806")
+}],
+"loop": false,
+"name": &"basic_attack",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": ExtResource("2_vlknj")
@@ -86,7 +116,9 @@ animation_player = NodePath("AnimationPlayer")
 
 [node name="AnimationPlayer" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_qv4iq")
-animation = &"chase"
+animation = &"basic_attack"
+frame = 5
+frame_progress = 1.0
 
 [node name="Hitbox" type="Area2D" parent="."]
 
@@ -113,7 +145,7 @@ neighboring_nodes = [NodePath("../Chase"), NodePath("../Patrol")]
 
 [node name="Chase" type="Node" parent="StateMachine" node_paths=PackedStringArray("neighboring_nodes")]
 script = ExtResource("11_bsopm")
-neighboring_nodes = [NodePath("../Patrol"), NodePath("../MinerBasicAttack")]
+neighboring_nodes = [NodePath("../Patrol"), NodePath("../MinerBasicAttack"), NodePath("../Retreat")]
 
 [node name="Patrol" type="Node" parent="StateMachine" node_paths=PackedStringArray("neighboring_nodes")]
 script = ExtResource("17_jgep4")
@@ -123,6 +155,11 @@ neighboring_nodes = [NodePath("../Idle"), NodePath("../Chase")]
 script = ExtResource("18_lefkw")
 hurtbox = NodePath("../../BasicAttack")
 neighboring_nodes = [NodePath("../Chase")]
+
+[node name="Retreat" type="Node" parent="StateMachine" node_paths=PackedStringArray("neighboring_nodes")]
+script = ExtResource("19_jdps6")
+neighboring_nodes = [NodePath("../Idle")]
+metadata/_custom_type_script = "uid://d4acuj0mbwvly"
 
 [node name="SightLine" type="RayCast2D" parent="."]
 target_position = Vector2(-50, 0)
@@ -141,3 +178,11 @@ shape = SubResource("RectangleShape2D_lefkw")
 [node name="AttackCooldown" type="Timer" parent="."]
 wait_time = 1.2
 one_shot = true
+
+[node name="StateDebugText" type="Label" parent="."]
+offset_left = -20.0
+offset_top = -34.0
+offset_right = 20.0
+offset_bottom = -11.0
+text = "Idle"
+horizontal_alignment = 1

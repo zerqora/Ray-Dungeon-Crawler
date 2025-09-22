@@ -1,6 +1,6 @@
 class_name Entity extends CharacterBody2D
 
-@export var entity_stats : EntityStats # need to make entity stats
+@export var entity_stats : EntityStats 
 @export var hitbox : Area2D
 @export var state_machine : StateMachine
 @export var animation_player : AnimatedSprite2D
