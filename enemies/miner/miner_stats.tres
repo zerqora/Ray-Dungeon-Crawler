@@ -6,7 +6,7 @@
 script = ExtResource("1_5epr7")
 sight_magnitude = 5.0
 gravity = 5000
-speed = 500
+speed = 700
 damage = 20.0
 hp = 100
 metadata/_custom_type_script = "uid://bwdytupgu1rqv"

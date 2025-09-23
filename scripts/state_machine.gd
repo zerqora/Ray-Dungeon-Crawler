@@ -8,6 +8,9 @@ class_name StateMachine extends Node
 @export var cooldowns : Array[Timer]
 @export var attacks : Array[Area2D]
 
+## Dictionary that holds information to be passed along each state.
+var data : Dictionary
+
 # TODO: Refactor the look_for_player() function to be part of the state super class because it's so versatile
 
 var state_text : Label
@@ -20,7 +23,7 @@ func _ready() -> void:
 	# State machines usually access data from the root node of the scene they're part of: the owner.
 	# We wait for the owner to be ready to guarantee all the data and nodes the states may need are available.
 	await owner.ready
-	var data : Dictionary = {
+	data = {
 		"stats" : owner.entity_stats,
 		"animation" : animation,
 		"spawn_point" : owner.global_position,
@@ -44,6 +47,5 @@ func _transition_to_next_state(next_node : Node, data: Dictionary = {}) -> void:
 func update(delta: float) -> void:
 	state.update(owner, delta)
 	sight_raycast.target_position.x = abs(sight_raycast.target_position.x) * (-1 if animation.flip_h == false else 1)
-	
 	if not owner.is_on_floor() : owner.velocity.y = 5000 * delta
 	

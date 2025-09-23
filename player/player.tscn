@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://5vfssawmb4qg"]
+[gd_scene load_steps=11 format=3 uid="uid://5vfssawmb4qg"]
 
 [ext_resource type="Script" uid="uid://gvf36gfbn7ns" path="res://scripts/player.gd" id="1_oul6g"]
 [ext_resource type="Texture2D" uid="uid://b047v06egti7k" path="res://sprites/ray's idle/IMG_1044.png" id="2_qjkh3"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://bros1vumn4f2g" path="res://sprites/ray's idle/IMG_1046.png" id="4_boad6"]
 [ext_resource type="Texture2D" uid="uid://blkmevil7k6yt" path="res://sprites/ray's idle/IMG_1047.png" id="5_rgyib"]
 [ext_resource type="PackedScene" uid="uid://c11qnthmq3di0" path="res://player/flame_fist.tscn" id="6_g6k8r"]
+[ext_resource type="Script" uid="uid://dv7j5wkl0sq87" path="res://scripts/state_machine.gd" id="7_boad6"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_hg6s5"]
 animations = [{
@@ -64,3 +65,7 @@ shape = SubResource("CircleShape2D_qjkh3")
 
 [node name="FlameFist" parent="." instance=ExtResource("6_g6k8r")]
 position = Vector2(1, -16)
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource("7_boad6")
+metadata/_custom_type_script = "uid://dv7j5wkl0sq87"

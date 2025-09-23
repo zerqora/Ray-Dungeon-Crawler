@@ -25,4 +25,10 @@ func exit(next_state: State) -> void:
 	# State ends
 	finished.emit(next_state, this_data)
 
+func found_player(sight_line : RayCast2D) -> bool:
+	if sight_line.is_colliding() && sight_line.get_collider().get_parent() is Player:
+		print("found player")
+		this_data["player"] = sight_line.get_collider().get_parent()
+		return true
+	return false
 	
