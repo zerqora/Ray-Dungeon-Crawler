@@ -2,7 +2,6 @@ class_name ChaseState extends State
 
 var speed : int
 var gravity : int = 5000
-var direction : int = 1
 @export var max_distance : int
 
 func enter(data : Dictionary = {}) -> void:
@@ -17,12 +16,12 @@ func enter(data : Dictionary = {}) -> void:
 func update(owner, delta: float) -> void:
 	if this_data["player"].global_position.x - owner.global_position.x > 0:
 		# player is on the right
+		direction = 1
 		this_data["animation"].flip_h = true
-		direction = 1 
 	else:
 		# player is on the left
-		this_data["animation"].flip_h = false
 		direction = -1
+		this_data["animation"].flip_h = false
 	owner.velocity.x = speed * direction * delta
 	check_distance_from_spawn()
 	look_for_player(owner)

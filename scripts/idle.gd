@@ -31,5 +31,5 @@ func update(owner, delta: float) -> void:
 		finished.emit(neighboring_nodes[0], this_data)	
 		
 func turn(owner) -> void:
-		owner.animation_player.flip_h = false if owner.animation_player.flip_h else true
+		this_data["animation"].flip_h = false if this_data["animation"].flip_h else true
 		sight_line.target_position.x *= -1

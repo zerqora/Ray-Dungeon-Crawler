@@ -1,12 +1,24 @@
-[gd_scene load_steps=11 format=3 uid="uid://5vfssawmb4qg"]
+[gd_scene load_steps=15 format=3 uid="uid://5vfssawmb4qg"]
 
 [ext_resource type="Script" uid="uid://gvf36gfbn7ns" path="res://scripts/player.gd" id="1_oul6g"]
+[ext_resource type="Script" uid="uid://b1blwg5g8ayu4" path="res://scripts/player_stats.gd" id="2_hg6s5"]
 [ext_resource type="Texture2D" uid="uid://b047v06egti7k" path="res://sprites/ray's idle/IMG_1044.png" id="2_qjkh3"]
 [ext_resource type="Texture2D" uid="uid://n6fb28rjsvlj" path="res://sprites/ray's idle/IMG_1045.png" id="3_g6k8r"]
 [ext_resource type="Texture2D" uid="uid://bros1vumn4f2g" path="res://sprites/ray's idle/IMG_1046.png" id="4_boad6"]
 [ext_resource type="Texture2D" uid="uid://blkmevil7k6yt" path="res://sprites/ray's idle/IMG_1047.png" id="5_rgyib"]
 [ext_resource type="PackedScene" uid="uid://c11qnthmq3di0" path="res://player/flame_fist.tscn" id="6_g6k8r"]
-[ext_resource type="Script" uid="uid://dv7j5wkl0sq87" path="res://scripts/state_machine.gd" id="7_boad6"]
+[ext_resource type="Script" uid="uid://6cgq3b61sgd3" path="res://player/player_state_machine.gd" id="7_rgyib"]
+[ext_resource type="Script" uid="uid://cx3hj5kjjsah1" path="res://player/move_state.gd" id="8_rgyib"]
+[ext_resource type="Script" uid="uid://bertfy3krub5v" path="res://player/ray_idle_state.gd" id="9_8t03j"]
+
+[sub_resource type="Resource" id="Resource_8t03j"]
+script = ExtResource("2_hg6s5")
+upgrades = {}
+hp = 100
+speed = 5000
+damage = 100
+oxygen = 100
+metadata/_custom_type_script = "uid://b1blwg5g8ayu4"
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_hg6s5"]
 animations = [{
@@ -40,6 +52,7 @@ collision_layer = 2
 collision_mask = 9
 platform_floor_layers = 4294967041
 script = ExtResource("1_oul6g")
+player_stats = SubResource("Resource_8t03j")
 
 [node name="Sprite2D" type="AnimatedSprite2D" parent="."]
 texture_repeat = 2
@@ -66,6 +79,21 @@ shape = SubResource("CircleShape2D_qjkh3")
 [node name="FlameFist" parent="." instance=ExtResource("6_g6k8r")]
 position = Vector2(1, -16)
 
-[node name="StateMachine" type="Node" parent="."]
-script = ExtResource("7_boad6")
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state", "animation")]
+script = ExtResource("7_rgyib")
+initial_state = NodePath("Move")
+animation = NodePath("../Sprite2D")
 metadata/_custom_type_script = "uid://dv7j5wkl0sq87"
+
+[node name="Idle" type="Node" parent="StateMachine"]
+script = ExtResource("9_8t03j")
+metadata/_custom_type_script = "uid://d4acuj0mbwvly"
+
+[node name="Move" type="Node" parent="StateMachine"]
+script = ExtResource("8_rgyib")
+metadata/_custom_type_script = "uid://d4acuj0mbwvly"
+
+[node name="StateDebugText" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Idle"

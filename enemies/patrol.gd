@@ -1,6 +1,5 @@
 class_name PatrolState extends State
 
-var direction : int
 ## The maximum distance in both directions from spawn that the entity can patrol.
 @export var maximum_distance : int = 20
 
@@ -33,11 +32,11 @@ func update(owner, delta : float) -> void:
 	if timer > turn_seconds:
 		timer = 0
 		turn_seconds = randf_range(0,4)
-		direction = randi_range(-1, 1)
+		change_direction(randi_range(-1, 1))
 		turn()
 	# Entity is too far from spawn. turn the other way
 	if abs(this_data["spawn_point"].x - owner.global_position.x) > maximum_distance:
-		direction *= -1
+		change_direction(direction * -1)
 		turn()
 		print("I'm straying too far away from spawn. I'm going to head the opposite way.")
 	owner.velocity.x = direction * this_data["stats"].speed * delta

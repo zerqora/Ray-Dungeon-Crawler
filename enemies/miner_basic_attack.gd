@@ -1,7 +1,6 @@
 class_name MinerBasicAttack extends State
 
 var cooldown : Timer
-var direction : int
 @export var hurtbox : Area2D
 	
 func enter(data : Dictionary = {}) -> void:

@@ -106,13 +106,12 @@ size = Vector2(13, 5)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lefkw"]
 size = Vector2(22, 26)
 
-[node name="BaseEntity" type="CharacterBody2D" node_paths=PackedStringArray("hitbox", "state_machine", "animation_player")]
+[node name="BaseEntity" type="CharacterBody2D" node_paths=PackedStringArray("hitbox", "state_machine")]
 collision_layer = 4
 script = ExtResource("1_7rdkp")
 entity_stats = ExtResource("2_xv3qx")
 hitbox = NodePath("Hitbox")
 state_machine = NodePath("StateMachine")
-animation_player = NodePath("AnimationPlayer")
 
 [node name="AnimationPlayer" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_qv4iq")
