@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://5vfssawmb4qg"]
+[gd_scene load_steps=17 format=3 uid="uid://5vfssawmb4qg"]
 
 [ext_resource type="Script" uid="uid://gvf36gfbn7ns" path="res://scripts/player.gd" id="1_oul6g"]
 [ext_resource type="Script" uid="uid://b1blwg5g8ayu4" path="res://scripts/player_stats.gd" id="2_hg6s5"]
@@ -10,6 +10,8 @@
 [ext_resource type="Script" uid="uid://6cgq3b61sgd3" path="res://player/player_state_machine.gd" id="7_rgyib"]
 [ext_resource type="Script" uid="uid://cx3hj5kjjsah1" path="res://player/move_state.gd" id="8_rgyib"]
 [ext_resource type="Script" uid="uid://bertfy3krub5v" path="res://player/ray_idle_state.gd" id="9_8t03j"]
+[ext_resource type="Script" uid="uid://bf52mn3yf7lgk" path="res://player/falling_state.gd" id="11_2ieo8"]
+[ext_resource type="Script" uid="uid://cti7fq85j7qwo" path="res://player/dash.gd" id="12_ebec5"]
 
 [sub_resource type="Resource" id="Resource_8t03j"]
 script = ExtResource("2_hg6s5")
@@ -77,11 +79,12 @@ position = Vector2(0, -6)
 shape = SubResource("CircleShape2D_qjkh3")
 
 [node name="FlameFist" parent="." instance=ExtResource("6_g6k8r")]
+visible = false
 position = Vector2(1, -16)
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state", "animation")]
 script = ExtResource("7_rgyib")
-initial_state = NodePath("Move")
+initial_state = NodePath("Idle")
 animation = NodePath("../Sprite2D")
 metadata/_custom_type_script = "uid://dv7j5wkl0sq87"
 
@@ -91,6 +94,15 @@ metadata/_custom_type_script = "uid://d4acuj0mbwvly"
 
 [node name="Move" type="Node" parent="StateMachine"]
 script = ExtResource("8_rgyib")
+metadata/_custom_type_script = "uid://d4acuj0mbwvly"
+
+[node name="Falling" type="Node" parent="StateMachine"]
+script = ExtResource("11_2ieo8")
+metadata/_custom_type_script = "uid://d4acuj0mbwvly"
+
+[node name="Dash" type="Node" parent="StateMachine" node_paths=PackedStringArray("neighboring_nodes")]
+script = ExtResource("12_ebec5")
+neighboring_nodes = [NodePath("../Falling")]
 metadata/_custom_type_script = "uid://d4acuj0mbwvly"
 
 [node name="StateDebugText" type="Label" parent="."]

@@ -30,12 +30,13 @@ func _ready() -> void:
 	
 func _transition_to_next_state(next_node : Node, data: Dictionary = {}) -> void:
 	#var previous_state_path : String = state.name
-	# state.exit()
+	#state.exit()
 	state = next_node
 	state.enter(data)
 	state_text.text = state.name
 
 func _physics_process(delta: float) -> void:
+	
 	_handle_input()
 	state.update(owner, delta)
 	
@@ -43,19 +44,18 @@ func _handle_input() -> void:
 	var stopped_moving: bool = Input.is_action_just_released("LEFT") or Input.is_action_just_released("RIGHT")
 	# Feels more predictable to the player if pressing left AND right cancelled out movement.
 	var cancelled_out_direction : bool = Input.is_action_pressed("LEFT") and Input.is_action_pressed("RIGHT")
-
-	if stopped_moving or cancelled_out_direction:
-		state.change_direction(0)
-	elif Input.is_action_pressed("LEFT"):
-		state.change_direction(-1)
-	elif Input.is_action_pressed("RIGHT"):
-		state.change_direction(1)
+	if state != $Dash && !owner.is_on_floor():
+		state.finished.emit($Falling, state.this_data)
+	elif stopped_moving or cancelled_out_direction:
+		state.finished.emit($Idle, state.this_data)
+	elif (Input.is_action_pressed("LEFT") or Input.is_action_pressed("RIGHT")):
+		state.finished.emit($Move, state.this_data)
 	if Input.is_action_just_pressed("INTERACT"):
 		EventBus.on_interaction_button_pressed.emit()
 	if Input.is_action_just_pressed("ATTACK"):
 		pass
 	if Input.is_action_just_pressed("DASH"):
-		print("dashing")
+		state.finished.emit($Dash, state.this_data)
 	
 	
 func fill_data() -> void:
@@ -63,5 +63,6 @@ func fill_data() -> void:
 		"stats" : owner.player_stats,
 		"animation" : animation,
 		"spawn_point" : owner.global_position,
-		"cooldowns" : owner.attack_cooldowns
+		"cooldowns" : owner.attack_cooldowns,
+		"dash_streak" : 0
 	}
