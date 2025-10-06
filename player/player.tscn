@@ -58,7 +58,6 @@ player_stats = SubResource("Resource_8t03j")
 
 [node name="Sprite2D" type="AnimatedSprite2D" parent="."]
 texture_repeat = 2
-position = Vector2(3.57628e-07, -14.5)
 sprite_frames = SubResource("SpriteFrames_hg6s5")
 animation = &"idle"
 
@@ -71,11 +70,10 @@ collision_layer = 2
 collision_mask = 9
 
 [node name="InteractCollider" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(0, -15)
 shape = SubResource("CapsuleShape2D_sh265")
 
 [node name="FeetCollider" type="CollisionShape2D" parent="."]
-position = Vector2(0, -6)
+position = Vector2(0, 9)
 shape = SubResource("CircleShape2D_qjkh3")
 
 [node name="FlameFist" parent="." instance=ExtResource("6_g6k8r")]
@@ -96,11 +94,12 @@ metadata/_custom_type_script = "uid://d4acuj0mbwvly"
 script = ExtResource("8_rgyib")
 metadata/_custom_type_script = "uid://d4acuj0mbwvly"
 
-[node name="Falling" type="Node" parent="StateMachine"]
+[node name="Falling" type="Node" parent="StateMachine" node_paths=PackedStringArray("neighboring_nodes")]
 script = ExtResource("11_2ieo8")
+neighboring_nodes = [NodePath("../Idle")]
 metadata/_custom_type_script = "uid://d4acuj0mbwvly"
 
-[node name="Dash" type="Node" parent="StateMachine" node_paths=PackedStringArray("neighboring_nodes")]
+[node name="ChargeDash" type="Node" parent="StateMachine" node_paths=PackedStringArray("neighboring_nodes")]
 script = ExtResource("12_ebec5")
 neighboring_nodes = [NodePath("../Falling")]
 metadata/_custom_type_script = "uid://d4acuj0mbwvly"
