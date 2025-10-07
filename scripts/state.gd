@@ -4,6 +4,7 @@ class_name State extends Node
 @export var neighboring_nodes : Array[State]
 ## Data within this state upon the enter function
 var this_data : Dictionary = {}
+
 ## Which way the entity is facing. -1 to move to the left, 1 for right, 0 for no direction.
 var direction : int = 0
 

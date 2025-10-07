@@ -4,6 +4,7 @@ var speed : int = 0
 func enter(data : Dictionary = {}) -> void:
 	this_data = data
 	speed = this_data["stats"].speed
+	this_data["animation"].play("run")
 
 func update(owner, delta : float) -> void:
 	if Input.is_action_pressed("LEFT"):

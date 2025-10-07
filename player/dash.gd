@@ -1,45 +1,26 @@
-class_name ChargeDashState extends State
-
-# When the player dashes, Ray will head towards the mouse. If he collides with an enemy, he will bounce into the air, 
-# and the player will have an opportunity to keep dashing to another enemy. 
+class_name DashState extends State
 
 var speed : int = 0
-var mouse_position : Vector2
-var upward_force : int = 0
+var upward_force : float = 0
+var timer : float = 0
 var applied_force_duration : float = .5
-var collided : bool = false
-var mouse_located : bool = false
+var acceleration : float = 500
 
 func enter(data : Dictionary = {}) -> void:
+	timer = 0
 	this_data = data
-	speed = this_data["stats"].speed / 2
-	# Find how to get the mouse position only once
+	speed = this_data["stats"].speed
+	print("dashing")
 	
-var timer : float = 0
-# Need to make the dash move towards the enemy closest to the mouse
-func update(owner, delta : float) -> void:
-	_handle_input()
-	if mouse_located:
-		# Player clicked to where they wanted to dash, set the velocity towards the mouse
-		owner.velocity = find_direction_to_mouse(mouse_position) * 500
-		print("changing velocity")
-		mouse_located = false
+func update(owner, delta: float) -> void:
 	timer += delta
 	if timer > applied_force_duration:
-		# Exit to the falling node
-		print("exiting")
 		finished.emit(neighboring_nodes[0], this_data)
-		owner.velocity = Vector2(0,0)
-		timer = 0
-		collided = false
-	#owner.velocity.y = upward_force * delta
-	owner.move_and_slide()
-
-func _handle_input() -> void:
-	if Input.is_action_just_pressed("ATTACK"):
-		mouse_located = true
-		mouse_position = owner.get_global_mouse_position()
-		print("mouse located")
+		if !owner.is_on_floor():
+			finished.emit(neighboring_nodes[0], this_data)
+	else:
+		owner.velocity.move_toward(owner.velocity, acceleration * timer)
+		owner.move_and_slide()
 
 func on_collision() -> void:
 	# apply a force upwards, then emit the finished signal to falling.
@@ -47,8 +28,3 @@ func on_collision() -> void:
 	# streak should decrease at some point (or reset)
 	this_data["dash_streak"] = this_data["dash_streak"] + 1
 	upward_force = -100000 / this_data["dash_streak"]
-
-
-# Should make Ray move to wherever the mouse is, including the angle.
-func find_direction_to_mouse(mouse_position : Vector2) -> Vector2:
-	return owner.global_position.direction_to(mouse_position)
