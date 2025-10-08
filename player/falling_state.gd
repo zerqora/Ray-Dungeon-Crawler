@@ -12,6 +12,6 @@ func update(owner, delta : float) -> void:
 	if Input.is_action_pressed("RIGHT"):
 		change_direction(1)
 	owner.velocity.y = 5000 * delta
-	owner.velocity.x = this_data["stats"].speed / 2 * delta * direction
+	#owner.velocity.x = direction * (this_data["stats"].speed / 2) * delta 
 	owner.move_and_slide()
 	

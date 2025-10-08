@@ -17,6 +17,7 @@ func update(owner, delta : float) -> void:
 	owner.velocity = Vector2(0,0)
 	owner.velocity.x = direction * speed * delta
 	_handle_input()
+	change_direction(1 if find_direction_to_mouse(owner.get_global_mouse_position()).x > 0 else -1)
 	if !owner.is_on_floor():
 		# Player is still in the air, cannot charge a dash
 		finished.emit(neighboring_nodes[0], this_data)
@@ -27,6 +28,7 @@ func update(owner, delta : float) -> void:
 	owner.move_and_slide()
 
 func _handle_input() -> void:
+	
 	if Input.is_action_just_pressed("ATTACK"):
 		mouse_located = true
 		mouse_position = owner.get_global_mouse_position()
@@ -36,4 +38,6 @@ func _handle_input() -> void:
 
 # Should make Ray move to wherever the mouse is, including the angle.
 func find_direction_to_mouse(mouse_position : Vector2) -> Vector2:
-	return owner.global_position.direction_to(mouse_position).normalized()
+	var mouse_direction : Vector2 = owner.global_position.direction_to(mouse_position).normalized()
+	change_direction(1 if mouse_direction.x > 0 else -1)
+	return mouse_direction
