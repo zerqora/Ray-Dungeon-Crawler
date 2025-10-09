@@ -26,7 +26,8 @@ func _physics_update(_owner, _delta: float) -> void:
 ## Sends the finished signal to indicate the end of a state
 func exit(next_state: State) -> void:
 	# State ends
-	finished.emit(next_state, this_data)
+	#finished.emit(next_state, this_data)
+	pass
 
 func change_direction(new_direction: int) -> void:
 	direction = new_direction
@@ -36,7 +37,7 @@ func change_direction(new_direction: int) -> void:
 ## Probably refactor this into an EnemyState class
 func found_player(sight_line : RayCast2D) -> bool:
 	if sight_line.is_colliding() && sight_line.get_collider().get_parent() is Player:
-		print("found player")
+		#print("found player")
 		this_data["player"] = sight_line.get_collider().get_parent()
 		return true
 	return false

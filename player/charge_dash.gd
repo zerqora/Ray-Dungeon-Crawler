@@ -10,7 +10,7 @@ var mouse_located : bool = false
 func enter(data : Dictionary = {}) -> void:
 	this_data = data
 	speed = this_data["stats"].speed / 10
-	print("charging dash")
+	#print("charging dash")
 
 # Need to make the dash move towards the enemy closest to the mouse
 func update(owner, delta : float) -> void:
@@ -34,7 +34,7 @@ func _handle_input() -> void:
 		mouse_position = owner.get_global_mouse_position()
 		# Exit to the dash state
 		finished.emit(neighboring_nodes[0], this_data)
-		print("mouse located")
+		#print("mouse located")
 
 # Should make Ray move to wherever the mouse is, including the angle.
 func find_direction_to_mouse(mouse_position : Vector2) -> Vector2:

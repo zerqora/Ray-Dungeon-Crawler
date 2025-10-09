@@ -30,7 +30,7 @@ func _ready() -> void:
 	
 func _transition_to_next_state(next_node : Node, data: Dictionary = {}) -> void:
 	#var previous_state_path : String = state.name
-	#state.exit()
+	state.exit(next_node)
 	state = next_node
 	state.enter(data)
 	state_text.text = state.name
@@ -44,7 +44,7 @@ func _handle_input() -> void:
 	var stopped_moving: bool = Input.is_action_just_released("LEFT") or Input.is_action_just_released("RIGHT")
 	# Feels more predictable to the player if pressing left AND right cancelled out movement.
 	var cancelled_out_direction : bool = Input.is_action_pressed("LEFT") and Input.is_action_pressed("RIGHT")
-	if Input.is_action_just_pressed("DASH"):
+	if state != $Falling && Input.is_action_just_pressed("DASH"):
 		state.finished.emit($ChargeDash, state.this_data)
 	if Input.is_action_just_released("DASH"):
 		state.finished.emit($Idle, state.this_data)
@@ -59,8 +59,6 @@ func _handle_input() -> void:
 		EventBus.on_interaction_button_pressed.emit()
 	if Input.is_action_just_pressed("ATTACK"):
 		pass
-	
-	
 	
 func fill_data() -> void:
 	data = {

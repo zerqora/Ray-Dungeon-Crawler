@@ -51,11 +51,11 @@ func update(owner, delta: float) -> void:
 	owner.move_and_slide()
 
 func damage_player(area : Area2D) -> void:
-	print("hit player")
+	#print("hit player")
 	hit_player = true
 
 func exit(next_node : State = neighboring_nodes[0]) -> void:
-	print("trying to exit attack state")
+	#print("trying to exit attack state")
 	hurtbox.hide()
 	hurtbox.area_entered.disconnect(damage_player)
 	finished.emit(neighboring_nodes[0], this_data)

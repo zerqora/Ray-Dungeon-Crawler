@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=4 uid="uid://dlwcvb3yegwci"]
+[gd_scene load_steps=11 format=4 uid="uid://dlwcvb3yegwci"]
 
 [ext_resource type="Script" uid="uid://ixnx8rxpd62t" path="res://scripts/level.gd" id="1_lis17"]
 [ext_resource type="Script" uid="uid://7ieog0klw33" path="res://world/enemy_spawn_points.gd" id="2_6f1wx"]
@@ -36,6 +36,12 @@ sources/0 = SubResource("TileSetAtlasSource_uhyhg")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lis17"]
 size = Vector2(280.5, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_go4ko"]
+size = Vector2(20, 121)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_uhyhg"]
+size = Vector2(299, 58.5)
 
 [node name="Level1" type="Node2D" node_paths=PackedStringArray("spawn_point", "enemy_spawn_points")]
 script = ExtResource("1_lis17")
@@ -81,3 +87,17 @@ position = Vector2(192, 67)
 [node name="Marker2D2" type="Marker2D" parent="EnemySpawnPoints"]
 visible = false
 position = Vector2(39, 62)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(-10, 42.5)
+shape = SubResource("RectangleShape2D_go4ko")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(268, 42)
+shape = SubResource("RectangleShape2D_go4ko")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(129.5, -44.25)
+shape = SubResource("RectangleShape2D_uhyhg")
