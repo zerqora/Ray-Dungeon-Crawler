@@ -5,7 +5,8 @@ class_name Player extends CharacterBody2D
 	"FlameFist" = $FlameFist
 }
 @onready var attack_cooldowns = {
-	"FlameFist" = $FlameFist/Cooldown
+	"FlameFist" = $FlameFist/Cooldown,
+	"Dash" = null
 }
 
 @onready var animation = $Sprite2D

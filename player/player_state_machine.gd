@@ -46,7 +46,7 @@ func _handle_input() -> void:
 	var cancelled_out_direction : bool = Input.is_action_pressed("LEFT") and Input.is_action_pressed("RIGHT")
 	if state != $Falling && Input.is_action_just_pressed("DASH"):
 		state.finished.emit($ChargeDash, state.this_data)
-	if Input.is_action_just_released("DASH"):
+	if state != $Dash && Input.is_action_just_released("DASH"):
 		state.finished.emit($Idle, state.this_data)
 	if state != $Dash && state != $ChargeDash:
 		if !owner.is_on_floor():

@@ -6,11 +6,13 @@ var upward_force : float = 0
 var timer : float = 0
 ## Timer that is 
 var force_timer : float = 0
-var applied_force_duration : float = .5
+var applied_force_duration : float = .05
 var dash_duration : float = .5
 var acceleration : float = 500
-
+var knockback : int = 6000
+var friction = .9
 var collided : bool = false
+
 @export var hitbox : Area2D
 
 func enter(data : Dictionary = {}) -> void:
@@ -24,17 +26,19 @@ func update(owner, delta: float) -> void:
 	# Connect the hitbox signal so that on collision during this time, Ray is affected by an upward force.
 	if !hitbox.area_entered.is_connected(on_collision):
 		hitbox.area_entered.connect(on_collision)
-	# Timer runs when the collision has occured
+	# Edit the velocities when Ray should be in the air after collision
 	if collided:
+		# Timer runs when the collision has occured
 		force_timer += delta
+		owner.velocity.y = upward_force * delta
+		owner.velocity.x += knockback * (-1 if this_data["animation"].flip_h == true else 1) * delta
+	owner.move_and_slide()
+	
 	# When the upwards force duration has been met, exit to the falling state
 	if force_timer > applied_force_duration:
 		finished.emit(neighboring_nodes[0], this_data)
-	else:
-		owner.velocity.move_toward(owner.velocity, acceleration * timer)
-		owner.velocity.y = upward_force * delta
-		owner.move_and_slide()
-	# Dash ran out of time, exit to the falling state for safety. Falling state will emit to the idle state immediately if not in air
+		return
+	# Dash ran out of time, exit to the falling state for code safety. Falling state will emit to the idle state immediately if not in air
 	if timer > dash_duration: 
 		finished.emit(neighboring_nodes[0], this_data)
 
@@ -43,7 +47,7 @@ func on_collision(area : Area2D) -> void:
 	# the player data should hold a key to a streak value, which when it increases, it divides the upward force.
 	# streak should decrease at some point (or reset)
 	if area == SightLine: return
-	upward_force = -10000
+	upward_force = -14000
 	collided = true
 	print("collided while dashing.")
 
