@@ -8,19 +8,24 @@ class_name Player extends CharacterBody2D
 	"FlameFist" = $FlameFist/Cooldown,
 	"Dash" = null
 }
-
 @onready var animation = $Sprite2D
 @export var player_stats : PlayerStats
+@export var hitbox : Area2D
+@export var state_machine : PlayerStateMachine
 var speed: int = 5000
 var gravity: int = 5000
 var dashing : bool = false
 
 func _ready() -> void:
 	animation.play("idle")
+	state_machine.state_changed.connect(_on_state_changed)
 	var values : Array = attack_slots.values()
 	for value : Attack in values:
 		value.hide()
 
+# Deal with enabling and disabling collisions and area2D nodes
+func _on_state_changed(state : State) -> void:
+	pass
 	
 #func _attempt_to_spawn_attack(attack: String) -> void:
 	#var attack_selected : Attack = attack_slots[attack]

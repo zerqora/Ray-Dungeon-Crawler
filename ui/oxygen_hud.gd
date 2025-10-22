@@ -11,13 +11,13 @@ func _lose_oxygen(amount : float) -> void:
 	
 
 var current_seconds : float = 0
-var seconds_to_update : int = 1
+var seconds_to_update : int = .75
 func _process(delta: float) -> void:
 	if current_seconds > seconds_to_update:
 		current_seconds = 0
-		_lose_oxygen(10)
-		_update_progress_bar()
+		_lose_oxygen(.1)
 	current_seconds += delta
+	_update_progress_bar()
 
 func _update_progress_bar() -> void:
-	$%TextureProgressBar.value = oxygen_amount / max_capacity * 100
+	$%OxygenLeft.value = oxygen_amount / max_capacity * 100

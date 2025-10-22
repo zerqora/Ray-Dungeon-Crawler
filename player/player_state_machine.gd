@@ -11,6 +11,7 @@ class_name PlayerStateMachine extends Node
 var data : Dictionary
 var state_text : Label
 
+signal state_changed(state : State)
 
 func _ready() -> void:
 	# Give every state a reference to the state machine.
@@ -34,6 +35,7 @@ func _transition_to_next_state(next_node : Node, data: Dictionary = {}) -> void:
 	state = next_node
 	state.enter(data)
 	state_text.text = state.name
+	state_changed.emit(state)
 
 func _physics_process(delta: float) -> void:
 	_handle_input()

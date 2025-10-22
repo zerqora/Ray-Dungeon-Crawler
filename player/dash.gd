@@ -49,7 +49,9 @@ func on_collision(area : Area2D) -> void:
 	if area == SightLine: return
 	upward_force = -14000
 	collided = true
-	print("collided while dashing.")
+	# Send the signal to the enemy that they took damage
+	area.owner.state_machine.damaged.emit(owner.hitbox)
+	#print("collided while dashing.")
 
 # Reset timers and forces and disconnect hitbox from the dashing logic
 func exit(next_state : State) -> void:

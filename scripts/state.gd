@@ -34,11 +34,22 @@ func change_direction(new_direction: int) -> void:
 	if direction == 0: return
 	this_data["animation"].flip_h = false if direction == -1 else true
 
-## Probably refactor this into an EnemyState class
+# Probably refactor this into an EnemyState class
 func found_player(sight_line : RayCast2D) -> bool:
 	if sight_line.is_colliding() && sight_line.get_collider().get_parent() is Player:
 		#print("found player")
 		this_data["player"] = sight_line.get_collider().get_parent()
 		return true
 	return false
+
+func increment_i_frames(delta : float) -> void:
+	if owner.invincible:
+		owner.i_frame_timer += delta
+	if owner.i_frame_timer > .1:
+		owner.i_frame_timer = 0
+		set_invincible(false)
+
+func set_invincible(is_invincible : bool) -> void:
+	owner.invincible = is_invincible
+
 	

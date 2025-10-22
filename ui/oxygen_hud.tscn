@@ -26,11 +26,7 @@ theme_override_constants/margin_left = 50
 theme_override_constants/margin_top = 50
 theme_override_constants/margin_right = 50
 
-[node name="ColorRect" type="ColorRect" parent="MarginContainer"]
-layout_mode = 2
-color = Color(0.230315, 0.230315, 0.230315, 1)
-
-[node name="TextureProgressBar" type="ProgressBar" parent="MarginContainer"]
+[node name="OxygenLeft" type="ProgressBar" parent="MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 value = 100.0

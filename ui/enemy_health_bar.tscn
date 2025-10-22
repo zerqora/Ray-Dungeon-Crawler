@@ -1,0 +1,23 @@
+[gd_scene load_steps=2 format=3 uid="uid://bcp8t0f4bgjf7"]
+
+[ext_resource type="Script" uid="uid://dj6bob4stnxk" path="res://scripts/health.gd" id="1_v3uco"]
+
+[node name="EnemyHealthBar" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_v3uco")
+
+[node name="Health" type="ProgressBar" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+offset_left = 92.0
+offset_top = 43.0
+offset_right = 372.0
+offset_bottom = 68.0
+value = 100.0
+rounded = true
+show_percentage = false

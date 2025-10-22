@@ -8,14 +8,16 @@ class_name StateMachine extends Node
 @export var cooldowns : Array[Timer]
 @export var attacks : Array[Area2D]
 
-
 ## Dictionary that holds information to be passed along each state.
 var data : Dictionary
 
-# TODO: Refactor the look_for_player() function to be part of the state super class because it's so versatile
+signal damaged(what : Area2D)
 
 var state_text : Label
+var current_invincibility = false
+
 func _ready() -> void:
+	damaged.connect(on_hitbox_triggered)
 	# Give every state a reference to the state machine.
 	for state_node: State in find_children("*", "State"):
 		state_node.finished.connect(_transition_to_next_state)
@@ -34,7 +36,7 @@ func _ready() -> void:
 ## Emitted on the "finished" signal. Transitions to the next state through the next_node parameter. 
 func _transition_to_next_state(next_node : Node, data: Dictionary = {}) -> void:
 	#var previous_state_path : String = state.name
-	# state.exit()
+	state.exit(next_node)
 	state = next_node
 	state.enter(data)
 	state_text.text = state.name
@@ -44,6 +46,30 @@ func update(delta: float) -> void:
 	sight_raycast.target_position.x = abs(sight_raycast.target_position.x) * (-1 if animation.flip_h == false else 1)
 	if not owner.is_on_floor() : owner.velocity.y = 5000 * delta
 
+## Connected to the damaged signal. 
+## No matter what state, if the entity is attacked, deal knockback to [param what] based on the player's velocity and exit to the hurt state. 
+func on_hitbox_triggered(what : Area2D) -> void:
+	if state == $Hurt:
+		print("Cannot exit to the hurt state because I'm already in it.")
+		return
+	
+	print("Going into the Hurt State")
+	# Deal knockback here because we have the [what] parameter.
+	# TODO : fix with velocity instead maybe
+	deal_knockback(1500, what.owner)
+	
+	state.this_data["player"] = what.owner if what.owner is Player else null
+	if state.this_data["player"] == null: return
+	state.finished.emit($Hurt, state.this_data)
+
+## The [param source] will apply an [param amount] of knockback to the [param] who paramater.
+func deal_knockback(amount : int, source, who = owner) -> void:
+	var knockback_direction : Vector2
+	knockback_direction = (source.velocity).normalized()
+	owner.velocity = knockback_direction * amount
+	owner.move_and_slide()
+
+## Fills the starting data for this type of entity. 
 func fill_data() -> void:
 	data = {
 		"stats" : owner.entity_stats,
@@ -54,3 +80,9 @@ func fill_data() -> void:
 			"basic_attack" : cooldowns[0]
 		}
 	}
+
+func set_invincibility(is_invincible : bool) -> void:
+	current_invincibility = is_invincible
+
+func is_invincible() -> bool:
+	return current_invincibility
