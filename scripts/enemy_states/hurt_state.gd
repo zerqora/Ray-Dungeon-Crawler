@@ -1,10 +1,13 @@
 class_name HurtState extends State
 
 var timer : float = 0
-var duration : float = .5
+var duration : float = .25
 
 func enter(data : Dictionary = {}) -> void:
 	this_data = data
+	var tween = get_tree().create_tween()
+	tween.tween_property(owner, "modulate", Color.RED, .1)
+	tween.tween_property(owner, "modulate", Color.WHITE, .1)
 
 func update(owner, delta : float) -> void:
 	timer += delta

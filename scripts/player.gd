@@ -25,7 +25,10 @@ func _ready() -> void:
 
 # Deal with enabling and disabling collisions and area2D nodes
 func _on_state_changed(state : State) -> void:
-	pass
+	if state.name == "Dash":
+		$Camera.zoom_out_for_seconds(Vector2(4.5, 4.5), .15)
+		$Camera.zoom_to_default(.5)
+
 	
 #func _attempt_to_spawn_attack(attack: String) -> void:
 	#var attack_selected : Attack = attack_slots[attack]

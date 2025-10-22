@@ -32,7 +32,7 @@ func look_for_player(owner) -> void:
 	if abs(this_data["player"].global_position.x - owner.global_position.x) < 30:
 		# Stop moving
 		owner.velocity.x = 0
-		exit(neighboring_nodes[1])
+		finished.emit(neighboring_nodes[1], this_data)
 
 func check_distance_from_spawn() -> void:
 	if this_data["spawn_point"].x - owner.global_position.x > max_distance:

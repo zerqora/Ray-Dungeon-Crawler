@@ -34,6 +34,7 @@ func enter(data : Dictionary = {}) -> void:
 var invincibility_frame_duration : float = 1
 var timer : float = 0
 var hit_player : bool = false
+
 func update(owner, delta: float) -> void:
 	direction = determine_movement()
 	if hit_player:
@@ -45,6 +46,7 @@ func update(owner, delta: float) -> void:
 	if !hit_player && hurtbox.has_overlapping_areas():
 		# the only areas that will be overlapping will be the player's because the mask is listening for the player layer.
 		damage_player(hurtbox.get_overlapping_areas()[0])
+		finished.emit(neighboring_nodes[0], this_data)
 	# If the invincibility frame is still going
 	
 	owner.velocity.x = direction * this_data["stats"]["speed"] * 5 * delta
@@ -57,8 +59,8 @@ func damage_player(area : Area2D) -> void:
 func exit(next_node : State = neighboring_nodes[0]) -> void:
 	#print("trying to exit attack state")
 	hurtbox.hide()
-	hurtbox.area_entered.disconnect(damage_player)
-	finished.emit(neighboring_nodes[0], this_data)
+	if hurtbox.area_entered.is_connected(damage_player):
+		hurtbox.area_entered.disconnect(damage_player)
 	
 func determine_movement() -> int:
 	# if the current frame is index 3, set the velocity depending on the direction of the sprite.
@@ -66,4 +68,3 @@ func determine_movement() -> int:
 	if this_data["animation"].frame >= 3 && this_data["animation"].frame != 5:
 		return 1 if this_data["animation"].flip_h else -1
 	return 0
-		
