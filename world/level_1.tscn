@@ -64,9 +64,10 @@ tile_set = SubResource("TileSet_go5pu")
 [node name="Floor" type="StaticBody2D" parent="."]
 
 [node name="Temp" type="ColorRect" parent="Floor"]
-offset_top = 101.0
-offset_right = 257.0
-offset_bottom = 138.0
+offset_left = -1.0
+offset_top = 80.0
+offset_right = 256.0
+offset_bottom = 117.0
 color = Color(0, 0, 0, 1)
 metadata/_edit_use_anchors_ = true
 

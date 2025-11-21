@@ -34,12 +34,14 @@ func _ready() -> void:
 	#print("Player is being tracked with it's node", target)
 
 ## Emitted on the "finished" signal. Transitions to the next state through the next_node parameter. 
-func _transition_to_next_state(next_node : Node, data: Dictionary = {}) -> void:
+func _transition_to_next_state(next_node : StringName, data: Dictionary = {}) -> void:
 	#var previous_state_path : String = state.name
-	state.exit(next_node)
-	state = next_node
+	var next_state : State
+	var path : NodePath = str(next_node)
+	next_state = get_node(path)
+	state.exit(next_state)
+	state = next_state
 	state.enter(data)
-	state_text.text = state.name
 
 func update(delta: float) -> void:
 	state.update(owner, delta)
@@ -50,22 +52,26 @@ func update(delta: float) -> void:
 ## No matter what state, if the entity is attacked, deal knockback to [param what] based on the player's velocity and exit to the hurt state. 
 func on_hitbox_triggered(what : Area2D) -> void:
 	if state == $Hurt:
-		print("Cannot exit to the hurt state because I'm already in it.")
+		#print("Cannot exit to the hurt state because I'm already in it.")
 		return
-	
-	print("Going into the Hurt State")
+	if is_invincible(): 
+		#print("Is invincible")
+		return
+	#print("Going into the Hurt State")
 	# Deal knockback here because we have the [what] parameter.
 	# TODO : fix with velocity instead maybe
-	deal_knockback(1500, what.owner)
+	deal_knockback(1000)
 	
 	state.this_data["player"] = what.owner if what.owner is Player else null
-	if state.this_data["player"] == null: return
-	state.finished.emit($Hurt, state.this_data)
+	if state.this_data["player"] == null: 
+		printerr("Player not found.")
+		return
+	state.finished.emit("Hurt", state.this_data)
 
 ## The [param source] will apply an [param amount] of knockback to the [param] who paramater.
-func deal_knockback(amount : int, source, who = owner) -> void:
+func deal_knockback(amount : int) -> void:
 	var knockback_direction : Vector2
-	knockback_direction = (source.velocity).normalized()
+	knockback_direction = (owner.velocity).normalized()
 	owner.velocity = knockback_direction * amount
 	owner.move_and_slide()
 

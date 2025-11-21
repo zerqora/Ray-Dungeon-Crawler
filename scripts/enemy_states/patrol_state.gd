@@ -16,7 +16,7 @@ func turn() -> void:
 			this_data["animation"].flip_h = false
 		0:
 			# Go back to idle state
-			finished.emit(neighboring_nodes[0], this_data)
+			finished.emit(neighboring_nodes[0].name, this_data)
 		1:
 			# Look right
 			this_data["animation"].flip_h = true
@@ -42,6 +42,6 @@ func update(owner, delta : float) -> void:
 	owner.velocity.x = direction * this_data["stats"].speed * delta
 	owner.move_and_slide()
 	if found_player(this_data["sight"]):
-		finished.emit(neighboring_nodes[1], this_data)
+		finished.emit(neighboring_nodes[1].name, this_data)
 		
 		

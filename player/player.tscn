@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://5vfssawmb4qg"]
+[gd_scene load_steps=22 format=3 uid="uid://5vfssawmb4qg"]
 
 [ext_resource type="Script" uid="uid://gvf36gfbn7ns" path="res://scripts/player.gd" id="1_oul6g"]
 [ext_resource type="Script" uid="uid://b1blwg5g8ayu4" path="res://resources/player_stats.gd" id="2_hg6s5"]
@@ -6,14 +6,12 @@
 [ext_resource type="Texture2D" uid="uid://n6fb28rjsvlj" path="res://sprites/ray's idle/IMG_1045.png" id="3_g6k8r"]
 [ext_resource type="Texture2D" uid="uid://bros1vumn4f2g" path="res://sprites/ray's idle/IMG_1046.png" id="4_boad6"]
 [ext_resource type="Texture2D" uid="uid://blkmevil7k6yt" path="res://sprites/ray's idle/IMG_1047.png" id="5_rgyib"]
-[ext_resource type="PackedScene" uid="uid://c11qnthmq3di0" path="res://player/flame_fist.tscn" id="6_g6k8r"]
 [ext_resource type="Texture2D" uid="uid://bwofqj2b16cao" path="res://sprites/ray's run/Untitled_Artwork-1.png" id="7_32hag"]
 [ext_resource type="Script" uid="uid://6cgq3b61sgd3" path="res://player/player_state_machine.gd" id="7_rgyib"]
 [ext_resource type="Script" uid="uid://cx3hj5kjjsah1" path="res://player/move_state.gd" id="8_rgyib"]
 [ext_resource type="Texture2D" uid="uid://c3i2p3tck1fjw" path="res://sprites/ray's run/Untitled_Artwork-2.png" id="8_tqiix"]
 [ext_resource type="Script" uid="uid://bertfy3krub5v" path="res://player/ray_idle_state.gd" id="9_8t03j"]
 [ext_resource type="Texture2D" uid="uid://c70l2n6yb43jb" path="res://sprites/ray's run/Untitled_Artwork-3.png" id="9_e7oew"]
-[ext_resource type="Script" uid="uid://bt6t6sbqvm3q5" path="res://player/camera.gd" id="10_tqiix"]
 [ext_resource type="Script" uid="uid://bf52mn3yf7lgk" path="res://player/falling_state.gd" id="11_2ieo8"]
 [ext_resource type="Script" uid="uid://cti7fq85j7qwo" path="res://player/charge_dash.gd" id="12_ebec5"]
 [ext_resource type="Script" uid="uid://d14wtcoptf6rx" path="res://player/dash.gd" id="13_yllr7"]
@@ -61,6 +59,9 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_32hag"]
+size = Vector2(40, 30)
+
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_32hag"]
 radius = 8.0
 
@@ -85,16 +86,19 @@ texture_repeat = 2
 sprite_frames = SubResource("SpriteFrames_hg6s5")
 animation = &"run"
 
-[node name="Camera" type="Camera2D" parent="."]
-offset = Vector2(0, -20)
-zoom = Vector2(2, 2)
-script = ExtResource("10_tqiix")
-
 [node name="HurtBoxes" type="Node" parent="."]
+
+[node name="Area2D" type="Area2D" parent="HurtBoxes"]
+visible = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBoxes/Area2D"]
+visible = false
+position = Vector2(-7, 0)
+shape = SubResource("RectangleShape2D_32hag")
 
 [node name="HitBox" type="Area2D" parent="."]
 collision_layer = 2
-collision_mask = 4
+collision_mask = 36
 
 [node name="Collision" type="CollisionShape2D" parent="HitBox"]
 shape = SubResource("CapsuleShape2D_32hag")
@@ -109,10 +113,6 @@ shape = SubResource("CapsuleShape2D_sh265")
 [node name="FeetCollider" type="CollisionShape2D" parent="."]
 position = Vector2(0, 9)
 shape = SubResource("CircleShape2D_qjkh3")
-
-[node name="FlameFist" parent="." instance=ExtResource("6_g6k8r")]
-visible = false
-position = Vector2(1, -16)
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state", "animation")]
 script = ExtResource("7_rgyib")
@@ -143,6 +143,11 @@ script = ExtResource("13_yllr7")
 hitbox = NodePath("../../HitBox")
 neighboring_nodes = [NodePath("../Falling")]
 metadata/_custom_type_script = "uid://d4acuj0mbwvly"
+
+[node name="Timers" type="Node" parent="."]
+
+[node name="DashCooldown" type="Timer" parent="Timers"]
+one_shot = true
 
 [node name="StateDebugText" type="Label" parent="."]
 offset_right = 40.0

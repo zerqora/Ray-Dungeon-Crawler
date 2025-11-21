@@ -8,11 +8,11 @@ func enter(data : Dictionary = {}) -> void:
 	var tween = get_tree().create_tween()
 	tween.tween_property(owner, "modulate", Color.RED, .1)
 	tween.tween_property(owner, "modulate", Color.WHITE, .1)
-
+	#print("enter the hurt state")
 func update(owner, delta : float) -> void:
 	timer += delta
 	if timer > duration:
-		finished.emit(neighboring_nodes[0], this_data)
+		finished.emit(neighboring_nodes[0].name, this_data)
 		#print("finished the Hurt State")
 
 func exit(_next_state : State) -> void:

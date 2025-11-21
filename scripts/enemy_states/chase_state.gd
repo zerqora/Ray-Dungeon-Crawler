@@ -22,20 +22,25 @@ func update(owner, delta: float) -> void:
 		# player is on the left
 		direction = -1
 		this_data["animation"].flip_h = false
+	# If too far away from spawn and cannot see the player, retreat
+	if _distance_from_spawn() > max_distance && (abs(this_data["player"].global_position.x - owner.global_position.x)) > max_distance:
+		finished.emit(neighboring_nodes[2].name, this_data)
 	owner.velocity.x = speed * direction * delta
-	check_distance_from_spawn()
 	look_for_player(owner)
 	owner.move_and_slide()
-	
-func look_for_player(owner) -> void:
-	# Close enough to the player
-	if abs(this_data["player"].global_position.x - owner.global_position.x) < 30:
-		# Stop moving
-		owner.velocity.x = 0
-		finished.emit(neighboring_nodes[1], this_data)
 
-func check_distance_from_spawn() -> void:
-	if this_data["spawn_point"].x - owner.global_position.x > max_distance:
-		print("too far away from spawn. I'm just gonna head back.")
-		finished.emit(neighboring_nodes[2], this_data)
+## Decides whether or not to exit to an attack state based on how far the owner is from the player.
+func look_for_player(owner) -> void:
+	var distance : float = abs(this_data["player"].global_position.x - owner.global_position.x)
+	# If too close to the player, back up
+	if distance < 40:
+		owner.velocity.x *= -1
+		#print("too close to the player")
+		return
+	# Close enough to the player to damage
+	if distance < 50:
+		finished.emit(neighboring_nodes[1].name, this_data)
+	
+func _distance_from_spawn() -> float:
+	return this_data["spawn_point"].x - owner.global_position.x
 		

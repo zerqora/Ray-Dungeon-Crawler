@@ -1,15 +1,49 @@
-[gd_scene load_steps=3 format=3 uid="uid://c11qnthmq3di0"]
+[gd_scene load_steps=8 format=3 uid="uid://c11qnthmq3di0"]
 
 [ext_resource type="PackedScene" uid="uid://b2jil1bmn7sdn" path="res://player/base_attack.tscn" id="1_bh85u"]
 [ext_resource type="Script" uid="uid://csplxw0b0qffp" path="res://player/flame_fist.gd" id="2_adofn"]
+[ext_resource type="Texture2D" uid="uid://derdnl3333c7v" path="res://sprites/slash animation/Untitled_Artwork-1 (1).png" id="3_jn7k2"]
+[ext_resource type="Texture2D" uid="uid://b4rtl0vs3ubjy" path="res://sprites/slash animation/Untitled_Artwork-2 (1).png" id="4_enfqk"]
+[ext_resource type="Texture2D" uid="uid://cuosc0kyegsrn" path="res://sprites/slash animation/Untitled_Artwork-3 (1).png" id="5_mckqf"]
+[ext_resource type="Texture2D" uid="uid://d3ak8o3tolb5p" path="res://sprites/slash animation/Untitled_Artwork-4.png" id="6_3ffwr"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ocnj8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_jn7k2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_enfqk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_mckqf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_3ffwr")
+}],
+"loop": false,
+"name": &"default",
+"speed": 12.0
+}]
 
 [node name="FlameFist" instance=ExtResource("1_bh85u")]
 script = ExtResource("2_adofn")
+stats = null
+
+[node name="CollisionShape2D" parent="Area2D" index="0"]
+position = Vector2(0, 0)
 
 [node name="Cooldown" parent="." index="1"]
 wait_time = 0.4
 
 [node name="Lifetime" type="Timer" parent="." index="2"]
 one_shot = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." index="3"]
+scale = Vector2(1.21875, 1.75)
+sprite_frames = SubResource("SpriteFrames_ocnj8")
+frame = 3
+frame_progress = 1.0
 
 [connection signal="timeout" from="Lifetime" to="." method="_on_lifetime_timeout"]

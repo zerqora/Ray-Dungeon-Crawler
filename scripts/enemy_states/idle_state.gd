@@ -7,7 +7,6 @@ var player_seen : bool
 func enter(data: Dictionary = {}) -> void:
 	this_data = data
 	this_data["animation"].play("idle")
-	print("idle state")
 
 ## Random float that changes everytime the entity successfully turns
 var turn_when_seconds : float = randf_range(1, 5)
@@ -28,7 +27,7 @@ func update(owner, delta: float) -> void:
 	timer += delta
 	
 	if found_player(sight_line):
-		finished.emit(neighboring_nodes[0], this_data)	
+		finished.emit(str(neighboring_nodes[0].name), this_data)	
 		
 func turn(owner) -> void:
 		this_data["animation"].flip_h = false if this_data["animation"].flip_h else true

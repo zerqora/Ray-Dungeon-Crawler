@@ -3,32 +3,30 @@ class_name Attack extends Node2D
 @export var stats : AttackStats
 @export var cooldown : Timer
 @export var hitbox : Area2D
+@export var animation : AnimatedSprite2D
 # TODO: add animation export
 func _ready() -> void:
-	hitbox.area_entered.connect(on_hitbox_triggered)
-	hitbox.monitorable = false
-	hitbox.monitoring = false
+	animation.animation_finished.connect(despawn)
+	visible = true
 
 func deal_damage(entity : Entity) -> void:
 	print("Dealt damage")
 	var damage : int = stats.damage
 	var true_damage : bool = stats.true_damage
-	entity.lose_health(damage, true_damage)
+	entity.decrement(damage)
 
-func spawn() -> void:
+func spawn(where : Vector2) -> void:
 	# if on cooldown
 	if not cooldown.is_stopped(): return
-	visible = true
 	# print("spawned at", global_position)
-	hitbox.monitorable = true
-	hitbox.monitoring = true
 	_go_on_cooldown()
+	global_position = where
 
 func despawn() -> void:
-	if visible:
-		hide()
-		hitbox.monitorable = false
-		hitbox.monitoring = false
+	queue_free()
+
+func flip_animation(flip : bool) -> void:
+	animation.flip_h = flip
 
 func _go_on_cooldown() -> void:
 	if !cooldown.is_stopped(): return
@@ -41,3 +39,6 @@ func _go_off_cooldown() -> void:
 	
 func on_hitbox_triggered(_area: Area2D) -> void:
 	print("hit entity")
+
+func play_animation(flipped : bool) -> void:
+	pass

@@ -12,7 +12,7 @@ func update(owner, delta : float) -> void:
 	owner.velocity.x = direction_to_destination * this_data["stats"].speed * delta
 	if (owner.global_position - this_data["spawn_point"]).length() < 10:
 		#print("reached spawn point")
-		finished.emit(neighboring_nodes[0], this_data)
+		finished.emit(neighboring_nodes[0].name, this_data)
 	this_data["animation"].flip_h = true if direction_to_destination > 0 else false
 	owner.move_and_slide()
 	

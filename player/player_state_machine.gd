@@ -29,38 +29,21 @@ func _ready() -> void:
 	#target = get_tree().get_nodes_in_group("Player")[0]
 	#print("Player is being tracked with it's node", target)
 	
-func _transition_to_next_state(next_node : Node, data: Dictionary = {}) -> void:
+func _transition_to_next_state(next_node : StringName, data: Dictionary = {}) -> void:
 	#var previous_state_path : String = state.name
-	state.exit(next_node)
-	state = next_node
+	var next_state : State
+	var path : NodePath = str(next_node)
+	next_state = get_node(path)
+	state.exit(next_state)
+	state = next_state
 	state.enter(data)
+
+
 	state_text.text = state.name
 	state_changed.emit(state)
 
 func _physics_process(delta: float) -> void:
-	_handle_input()
 	state.update(owner, delta)
-	
-# Holy moly please refactor
-func _handle_input() -> void:
-	var stopped_moving: bool = Input.is_action_just_released("LEFT") or Input.is_action_just_released("RIGHT")
-	# Feels more predictable to the player if pressing left AND right cancelled out movement.
-	var cancelled_out_direction : bool = Input.is_action_pressed("LEFT") and Input.is_action_pressed("RIGHT")
-	if state != $Falling && Input.is_action_just_pressed("DASH"):
-		state.finished.emit($ChargeDash, state.this_data)
-	if state != $Dash && Input.is_action_just_released("DASH"):
-		state.finished.emit($Idle, state.this_data)
-	if state != $Dash && state != $ChargeDash:
-		if !owner.is_on_floor():
-			state.finished.emit($Falling, state.this_data)
-		elif stopped_moving or cancelled_out_direction:
-			state.finished.emit($Idle, state.this_data)
-		elif (Input.is_action_pressed("LEFT") or Input.is_action_pressed("RIGHT")):
-			state.finished.emit($Move, state.this_data)
-	if Input.is_action_just_pressed("INTERACT"):
-		EventBus.on_interaction_button_pressed.emit()
-	if Input.is_action_just_pressed("ATTACK"):
-		pass
 	
 func fill_data() -> void:
 	data = {

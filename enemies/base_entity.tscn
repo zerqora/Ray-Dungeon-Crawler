@@ -1,14 +1,11 @@
-[gd_scene load_steps=32 format=3 uid="uid://djlt3tfmrruju"]
+[gd_scene load_steps=29 format=3 uid="uid://djlt3tfmrruju"]
 
 [ext_resource type="Script" uid="uid://b4f5m4vk8ml73" path="res://scripts/entity.gd" id="1_7rdkp"]
 [ext_resource type="Texture2D" uid="uid://co34gs10qw2o4" path="res://enemies/miner/running_anim/Untitled_Artwork-1 2.png" id="2_vlknj"]
 [ext_resource type="Resource" uid="uid://cew7vh7w6bahq" path="res://enemies/miner/miner_stats.tres" id="2_xv3qx"]
-[ext_resource type="Texture2D" uid="uid://cectde1xi8ld6" path="res://enemies/miner/basic_attack_anim/Untitled_Artwork-1.png" id="3_fpqfi"]
 [ext_resource type="Texture2D" uid="uid://cxt1aiyu1t302" path="res://enemies/miner/running_anim/Untitled_Artwork-2 2.png" id="3_xv3qx"]
-[ext_resource type="Texture2D" uid="uid://bqr4rtccn84aq" path="res://enemies/miner/basic_attack_anim/Untitled_Artwork-2.png" id="4_1red3"]
 [ext_resource type="Texture2D" uid="uid://dtg36y3grlsbl" path="res://enemies/miner/running_anim/Untitled_Artwork-3 2.png" id="4_m8s0t"]
 [ext_resource type="Texture2D" uid="uid://chb3jnscsyxe8" path="res://enemies/miner/running_anim/Untitled_Artwork-4 2.png" id="5_e6kmk"]
-[ext_resource type="Texture2D" uid="uid://dxqdc8mutal7b" path="res://enemies/miner/basic_attack_anim/Untitled_Artwork-3.png" id="5_pj3ns"]
 [ext_resource type="Texture2D" uid="uid://ddujdiskfb1xd" path="res://enemies/miner/basic_attack_anim/Untitled_Artwork-4.png" id="6_3mbrl"]
 [ext_resource type="Texture2D" uid="uid://c1ipofgq6ub4r" path="res://enemies/miner/running_anim/Untitled_Artwork-5.png" id="6_bsopm"]
 [ext_resource type="Texture2D" uid="uid://dxf3rx50uspje" path="res://enemies/miner/running_anim/Untitled_Artwork-6.png" id="7_0rcsr"]
@@ -32,21 +29,12 @@
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("3_fpqfi")
-}, {
-"duration": 1.0,
-"texture": ExtResource("4_1red3")
-}, {
-"duration": 1.0,
-"texture": ExtResource("5_pj3ns")
-}, {
-"duration": 1.0,
 "texture": ExtResource("6_3mbrl")
 }, {
 "duration": 1.0,
 "texture": ExtResource("7_m7ws8")
 }, {
-"duration": 1.5,
+"duration": 1.0,
 "texture": ExtResource("8_nv806")
 }],
 "loop": false,
@@ -117,7 +105,7 @@ state_machine = NodePath("StateMachine")
 [node name="AnimationPlayer" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_qv4iq")
 animation = &"basic_attack"
-frame = 5
+frame = 2
 frame_progress = 1.0
 
 [node name="Hitbox" type="Area2D" parent="."]
@@ -176,8 +164,9 @@ collide_with_areas = true
 script = ExtResource("12_bsopm")
 
 [node name="BasicAttack" type="Area2D" parent="."]
-collision_layer = 0
+collision_layer = 32
 collision_mask = 2
+monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BasicAttack"]
 shape = SubResource("RectangleShape2D_lefkw")

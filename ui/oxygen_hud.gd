@@ -3,12 +3,21 @@ class_name OxygenHUD extends Control
 var oxygen_amount : float = 100
 var max_capacity : float = 100
 
+func _ready() -> void:
+	EventBus.lose_oxygen.connect(_lose_oxygen)
+	EventBus.heal_oxygen.connect(_heal_oxygen)
+	
 func _lose_oxygen(amount : float) -> void:
 	if oxygen_amount <= 0:
 		# print("ran out of oxygen")
 		return
 	oxygen_amount -= amount
-	
+
+func _heal_oxygen(amount : int) -> void:
+	if oxygen_amount + amount > max_capacity:
+		oxygen_amount = max_capacity
+	else:
+		oxygen_amount += amount
 
 var current_seconds : float = 0
 var seconds_to_update : int = .75

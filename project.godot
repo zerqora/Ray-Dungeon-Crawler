@@ -18,6 +18,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 EventBus="*res://scripts/event_bus.gd"
+Camera="*res://player/camera.tscn"
 
 [display]
 
@@ -85,6 +86,7 @@ JUMP={
 2d_physics/layer_3="enemy"
 2d_physics/layer_4="interact_area"
 2d_physics/layer_5="attack"
+2d_physics/layer_6="hurtbox"
 
 [rendering]
 

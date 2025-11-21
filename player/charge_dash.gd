@@ -19,12 +19,12 @@ func update(owner, delta : float) -> void:
 	_handle_input()
 	if !owner.is_on_floor():
 		# Player is still in the air, cannot charge a dash
-		finished.emit(neighboring_nodes[0], this_data)
+		finished.emit(neighboring_nodes[0].name, this_data)
 	if mouse_located:
 		# Player clicked to where they wanted to dash, set the velocity towards the mouse
 		owner.velocity.x = find_direction_to_mouse(mouse_position) * this_data["stats"].speed * 3 * delta
 		# Exit to the dash state
-		finished.emit(neighboring_nodes[0], this_data)
+		finished.emit(neighboring_nodes[0].name, this_data)
 	owner.move_and_slide()
 
 func _handle_input() -> void:
@@ -32,7 +32,6 @@ func _handle_input() -> void:
 	if Input.is_action_just_pressed("ATTACK"):
 		mouse_located = true
 		mouse_position = owner.get_global_mouse_position()
-
 		#print("mouse located")
 
 func find_direction_to_mouse(mouse_position : Vector2) -> int:
