@@ -6,6 +6,7 @@ class_name Attack extends Node2D
 @export var animation : AnimatedSprite2D
 # TODO: add animation export
 func _ready() -> void:
+	hitbox.area_entered.connect(on_hitbox_triggered)
 	animation.animation_finished.connect(despawn)
 	visible = true
 

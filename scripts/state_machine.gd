@@ -34,7 +34,7 @@ func _ready() -> void:
 	#print("Player is being tracked with it's node", target)
 
 ## Emitted on the "finished" signal. Transitions to the next state through the next_node parameter. 
-func _transition_to_next_state(next_node : StringName, data: Dictionary = {}) -> void:
+func _transition_to_next_state(next_node : StringName, data: Dictionary = state.this_data) -> void:
 	#var previous_state_path : String = state.name
 	var next_state : State
 	var path : NodePath = str(next_node)
@@ -46,8 +46,13 @@ func _transition_to_next_state(next_node : StringName, data: Dictionary = {}) ->
 func update(delta: float) -> void:
 	state.update(owner, delta)
 	sight_raycast.target_position.x = abs(sight_raycast.target_position.x) * (-1 if animation.flip_h == false else 1)
-	if not owner.is_on_floor() : owner.velocity.y = 5000 * delta
-
+	owner.move_and_slide()
+	if owner.is_on_floor(): 
+		print("Not on the floor")
+		owner.velocity.y = 5000 * delta
+	else:
+		owner.velocity.y = 0
+	
 ## Connected to the damaged signal. 
 ## No matter what state, if the entity is attacked, deal knockback to [param what] based on the player's velocity and exit to the hurt state. 
 func on_hitbox_triggered(what : Area2D) -> void:
@@ -60,20 +65,23 @@ func on_hitbox_triggered(what : Area2D) -> void:
 	#print("Going into the Hurt State")
 	# Deal knockback here because we have the [what] parameter.
 	# TODO : fix with velocity instead maybe
-	deal_knockback(1000)
+	deal_knockback(100)
 	
-	state.this_data["player"] = what.owner if what.owner is Player else null
-	if state.this_data["player"] == null: 
-		printerr("Player not found.")
-		return
+	#state.this_data["player"] = what.owner if what.owner is Player else null
+	#if state.this_data["player"] == null: 
+		#printerr("Player not found. Found: ", what.owner.owner)
+		#return
+	#state.this_data["player"] = what.owner
 	state.finished.emit("Hurt", state.this_data)
 
 ## The [param source] will apply an [param amount] of knockback to the [param] who paramater.
 func deal_knockback(amount : int) -> void:
-	var knockback_direction : Vector2
-	knockback_direction = (owner.velocity).normalized()
-	owner.velocity = knockback_direction * amount
+	var knockback_direction : int
+	knockback_direction = -1 * (owner.state_machine.state.direction)
+	var total_knockback = knockback_direction * amount
+	owner.velocity = Vector2(total_knockback, 0)
 	owner.move_and_slide()
+	
 
 ## Fills the starting data for this type of entity. 
 func fill_data() -> void:

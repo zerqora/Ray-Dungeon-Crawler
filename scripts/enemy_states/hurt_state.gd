@@ -5,6 +5,7 @@ var duration : float = .25
 
 func enter(data : Dictionary = {}) -> void:
 	this_data = data
+	
 	var tween = get_tree().create_tween()
 	tween.tween_property(owner, "modulate", Color.RED, .1)
 	tween.tween_property(owner, "modulate", Color.WHITE, .1)

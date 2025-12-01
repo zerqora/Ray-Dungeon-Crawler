@@ -22,13 +22,12 @@ func update(owner, delta: float) -> void:
 		if chance_to_patrol > .5:
 			exit(neighboring_nodes[ceil(chance_to_patrol)])
 		else: 
-			turn(owner)
+			change_direction(direction * -1)
 		chance_to_patrol = randf_range(0,1)
 	timer += delta
 	
-	if found_player(sight_line):
-		finished.emit(str(neighboring_nodes[0].name), this_data)	
+	#if found_player(sight_line):
+		#finished.emit(str(neighboring_nodes[0].name), this_data)	
 		
-func turn(owner) -> void:
-		this_data["animation"].flip_h = false if this_data["animation"].flip_h else true
-		sight_line.target_position.x *= -1
+func exit(next_state : State) -> void:
+	owner.velocity = Vector2(0,0)

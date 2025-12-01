@@ -90,17 +90,19 @@ radius = 8.5
 height = 24.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vlknj"]
-size = Vector2(13, 5)
+size = Vector2(23, 5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lefkw"]
 size = Vector2(22, 26)
 
-[node name="BaseEntity" type="CharacterBody2D" node_paths=PackedStringArray("hitbox", "state_machine")]
-collision_layer = 4
+[node name="BaseEntity" type="CharacterBody2D" node_paths=PackedStringArray("hitbox", "state_machine", "sight_line")]
+collision_layer = 0
+collision_mask = 2
 script = ExtResource("1_7rdkp")
 entity_stats = ExtResource("2_xv3qx")
 hitbox = NodePath("Hitbox")
 state_machine = NodePath("StateMachine")
+sight_line = NodePath("SightLine")
 
 [node name="AnimationPlayer" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_qv4iq")
@@ -117,7 +119,7 @@ position = Vector2(-0.5, 1)
 shape = SubResource("CapsuleShape2D_7rdkp")
 
 [node name="FeetCollider" type="CollisionShape2D" parent="."]
-position = Vector2(-0.5, 13.5)
+position = Vector2(0.5, 13.5)
 shape = SubResource("RectangleShape2D_vlknj")
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state", "animation", "sight_raycast", "cooldowns", "attacks")]

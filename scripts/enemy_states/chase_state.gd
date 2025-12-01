@@ -14,16 +14,14 @@ func enter(data : Dictionary = {}) -> void:
 # if they aren't, patrol the area a little bit before going back to the original spot.
 # if the entity is close enough to the player, play an attack, and then retreat backwards.
 func update(owner, delta: float) -> void:
-	if this_data["player"].global_position.x - owner.global_position.x > 0:
+	if owner.target.global_position.x - owner.global_position.x > 0:
 		# player is on the right
-		direction = 1
-		this_data["animation"].flip_h = true
+		change_direction(1)
 	else:
 		# player is on the left
-		direction = -1
-		this_data["animation"].flip_h = false
+		change_direction(-1)
 	# If too far away from spawn and cannot see the player, retreat
-	if _distance_from_spawn() > max_distance && (abs(this_data["player"].global_position.x - owner.global_position.x)) > max_distance:
+	if _distance_from_spawn() > max_distance && (abs(owner.target.global_position.x - owner.global_position.x)) > max_distance:
 		finished.emit(neighboring_nodes[2].name, this_data)
 	owner.velocity.x = speed * direction * delta
 	look_for_player(owner)
@@ -31,7 +29,7 @@ func update(owner, delta: float) -> void:
 
 ## Decides whether or not to exit to an attack state based on how far the owner is from the player.
 func look_for_player(owner) -> void:
-	var distance : float = abs(this_data["player"].global_position.x - owner.global_position.x)
+	var distance : float = abs(owner.target.global_position.x - owner.global_position.x)
 	# If too close to the player, back up
 	if distance < 40:
 		owner.velocity.x *= -1

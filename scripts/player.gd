@@ -1,6 +1,13 @@
 class_name Player extends CharacterBody2D
 # Eventually create a state machine to control what happens to inputs. Getting the basics down and changing it later.
 
+enum MOUSE_MODE{
+	DASH_SELECTOR,
+	BASIC_ATTACK
+}
+
+var current_mouse_mode = MOUSE_MODE.BASIC_ATTACK
+
 @onready var attack_slots = {
 	"FlameFist" = preload("res://player/flame_fist.tscn")
 }
